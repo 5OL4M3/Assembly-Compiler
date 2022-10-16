@@ -6,7 +6,16 @@
 #include "symbol_table.h"
 #include "command.h"
 
+
+//Command
+
 Command::Command(){}
+//check the number of arguments and argument values in this function
+//enter the values into the symbol table
+bool Command::check_args(std::string _myline) {
+	return true;
+}
+
 
 //Declscal
 Declscal::Declscal( ) {
@@ -17,6 +26,10 @@ void Declscal::display( ) {
 std::cout << "Declscal called" << std::endl;
 }
 
+void Declscal::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Declarr
 Declarr::Declarr( ) {
 	check = true;	
@@ -25,6 +38,10 @@ Declarr::Declarr( ) {
 void Declarr::display( ) {
 std::cout << "Declarr called" << std::endl;}
 
+void Declarr::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Label
 Label::Label( ) {
 	bool check = true;
@@ -32,6 +49,10 @@ Label::Label( ) {
 
 void Label::display( ) {
 std::cout << "Label called" << std::endl;
+}
+
+void Label::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Gosublabel
@@ -43,6 +64,27 @@ void Gosublabel::display( ) {
 std::cout << "Gosublabel called" << std::endl;
 }
 
+void Gosublabel::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
+//Start
+Start::Start ( ){
+	bool check = false;
+	std::string instruction = "OP_START_PROGRAM";
+	int count = -1; //Count is set to unknown which is -1
+}
+
+void Start::display( ){
+	std::cout << "Start called" << std::endl;
+}
+void Start::add( ){
+	std::cout << "Adding to Instruction Buffer" << std::endl;
+	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
+	Statement_Buffer::add_statement(this);
+	std::cout << "START: " << this->instruction << "\n";
+}
+
 //End
 End::End( ) {
 	bool check = false;
@@ -50,6 +92,10 @@ End::End( ) {
 
 void End::display( ) {
 std::cout << "End called" << std::endl;
+}
+
+void End::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Exit
@@ -61,6 +107,10 @@ void Exit::display( ) {
 std::cout << "Exit called" << std::endl;
 }
 
+void Exit::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Jump
 Jump::Jump( ) {
 	bool check = true;
@@ -68,6 +118,10 @@ Jump::Jump( ) {
 
 void Jump::display( ) {
 std::cout << "Jump called" << std::endl;
+}
+
+void Jump::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Jumpzero
@@ -79,6 +133,10 @@ void Jumpzero::display( ) {
 std::cout << "Jumpzero called" << std::endl;
 }
 
+void Jumpzero::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Jumpnzero
 Jumpnzero::Jumpnzero( ) {
 	bool check = true;
@@ -86,6 +144,10 @@ Jumpnzero::Jumpnzero( ) {
 
 void Jumpnzero::display( ) {
 std::cout << "Jumpnzero called" << std::endl;
+}
+
+void Jumpnzero::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Gosub
@@ -97,6 +159,10 @@ void Gosub::display( ) {
 std::cout << "Gosub called" << std::endl;
 }
 
+void Gosub::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Return
 Return::Return( ) {
 	bool check = false;
@@ -104,6 +170,10 @@ Return::Return( ) {
 
 void Return::display( ) {
 std::cout << "Return called" << std::endl;
+}
+
+void Return::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Pushscal
@@ -115,6 +185,10 @@ void Pushscal::display( ) {
 std::cout << "Pushscal called" << std::endl;
 }
 
+void Pushscal::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Pusharr
 Pusharr::Pusharr( ) {
 	bool check = true;
@@ -122,6 +196,10 @@ Pusharr::Pusharr( ) {
 
 void Pusharr::display( ) {
 std::cout << "Pusharr called" << std::endl;
+}
+
+void Pusharr::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Pushi
@@ -134,6 +212,10 @@ void Pushi::display( ) {
 std::cout << "Pushi called" << std::endl;
 }
 
+void Pushi::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Pop
 Pop::Pop( ) {
 	check = false;
@@ -141,6 +223,10 @@ Pop::Pop( ) {
 
 void Pop::display( ) {
 std::cout << "Pop called" << std::endl;
+}
+
+void Pop::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Popscal
@@ -152,6 +238,10 @@ void Popscal::display( ) {
 std::cout << "Popscal called" << std::endl;
 }
 
+void Popscal::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Poparr
 Poparr::Poparr( ) {
 	check = true;
@@ -159,6 +249,10 @@ Poparr::Poparr( ) {
 
 void Poparr::display( ) {
 std::cout << "Poparr called" << std::endl;
+}
+
+void Poparr::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Dup
@@ -170,6 +264,10 @@ void Dup::display( ) {
 std::cout << "Dup called" << std::endl;
 }
 
+void Dup::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Swap
 Swap::Swap( ) {
 	check = false;
@@ -177,6 +275,10 @@ Swap::Swap( ) {
 
 void Swap::display( ) {
 std::cout << "Swap called" << std::endl;
+}
+
+void Swap::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Add
@@ -188,6 +290,10 @@ void Add::display( ) {
 std::cout << "Add called" << std::endl;
 }
 
+void Add::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Negate
 Negate::Negate( ) {
 	check = false;
@@ -195,6 +301,10 @@ Negate::Negate( ) {
 
 void Negate::display( ) {
 std::cout << "Negate called" << std::endl;
+}
+
+void Negate::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Mul
@@ -206,6 +316,10 @@ void Mul::display( ) {
 std::cout << "Mul called" << std::endl;
 }
 
+void Mul::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Div
 Div::Div( ) {
 	check = false;
@@ -213,6 +327,10 @@ Div::Div( ) {
 
 void Div::display( ) {
 std::cout << "Div called" << std::endl;
+}
+
+void Div::add( ){
+	std::cout << "Adding to " << std::endl;
 }
 
 //Printtos
@@ -224,6 +342,10 @@ void Printtos::display( ) {
 std::cout << "Printtos called" << std::endl;
 }
 
+void Printtos::add( ){
+	std::cout << "Adding to " << std::endl;
+}
+
 //Prints
 Prints::Prints( ) {
 	check = true;
@@ -233,9 +355,8 @@ void Prints::display( ) {
 std::cout << "Prints called" << std::endl;
 }
 
-//check the number of arguments and argument values in this function
-//enter the values into the symbol table
-bool Command::check_args(std::string _myline) {
-	
-	return true;
+void Prints::add( ){
+	std::cout << "Adding to " << std::endl;
 }
+
+
