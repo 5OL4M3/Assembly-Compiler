@@ -8,7 +8,10 @@ class Command{
 public:
     Command();
     int temp;
-    virtual void display() = 0;
+    bool check;		//if we should check for additional arguments for eg. 6 in pushi 6
+	int expected = 0;	//the number of additional arguments we should expect
+	virtual void display() = 0;
+	bool check_args(std::string);
 private:
     std::string syntax;
 };
@@ -185,7 +188,7 @@ public:
 class Mul:public Command {
 public:
     Mul( );
-void display( );
+	void display( );
 };
 
 
