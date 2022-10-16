@@ -10,11 +10,13 @@ class Command{
 public:
     Command();
     std::string instruction;
-    int count = 0;
+    int count;
     bool check;		//if we should check for additional arguments for eg. 6 in pushi 6
 	int expected = 0;	//the number of additional arguments we should expect
 	virtual void display() = 0;
     virtual void add() = 0;
+    virtual std::string get_instruction() = 0;
+    virtual int get_count() = 0;
 	bool check_args(std::string);
 private:
     std::string syntax;
@@ -27,6 +29,8 @@ public:
     Declscal( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
 };
 
 
@@ -36,6 +40,8 @@ public:
     Declarr( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
 };
 
 
@@ -45,6 +51,8 @@ public:
     Label( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
 };
 
 
@@ -54,6 +62,11 @@ public:
     Gosublabel( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private: 
+    int count = -1;
+    std::string instruction = "OP_ENTER_SUBROUTINE";
 };
 
 //Start 
@@ -62,10 +75,11 @@ public:
     Start( );
     void display( );
     void add( );
+    std::string get_instruction( );
+    int get_count( );
+private:
     int count = -1;
     std::string instruction = "OP_START_PROGRAM";
-private:
-    
 };
 
 //End
@@ -74,6 +88,8 @@ public:
     End( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
 };
 
 
@@ -83,6 +99,11 @@ public:
     Exit( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_EXIT";
 };
 
 
@@ -92,6 +113,11 @@ public:
     Jump( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_JUMP";
 };
 
 
@@ -101,6 +127,11 @@ public:
     Jumpzero( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_JUMPZERO";
 };
 
 
@@ -110,6 +141,11 @@ public:
     Jumpnzero( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_JUMPNZERO";
 };
 
 
@@ -119,6 +155,11 @@ public:
     Gosub( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_GOSUB";
 };
 
 //Return
@@ -127,6 +168,11 @@ public:
     Return( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_RETURN";
 };
 
 
@@ -136,6 +182,11 @@ public:
     Pushscal( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_PUSHSCALAR";
 };
 
 
@@ -145,6 +196,11 @@ public:
     Pusharr( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_PUSHARRAY";
 };
 
 
@@ -154,6 +210,11 @@ public:
     Pushi( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_PUSHI";
 };
 
 
@@ -163,6 +224,11 @@ public:
     Pop( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_POP";
 };
 
 
@@ -172,6 +238,11 @@ public:
     Popscal( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_POPSCAL";
 };
 
 
@@ -181,6 +252,11 @@ public:
     Poparr( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_POPARRAY";
 };
 
 
@@ -190,6 +266,11 @@ public:
     Dup( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_DUP";
 };
 
 
@@ -199,6 +280,11 @@ public:
     Swap( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_SWAP";
 };
 
 
@@ -208,6 +294,11 @@ public:
     Add( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_ADD";
 };
 
 
@@ -217,6 +308,11 @@ public:
     Negate( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_NEGATE";
 };
 
 
@@ -226,6 +322,11 @@ public:
     Mul( );
 	void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_MUL";
 };
 
 
@@ -235,6 +336,11 @@ public:
     Div( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_DIV";
 };
 
 
@@ -244,8 +350,12 @@ public:
     Printtos( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_PRINTTOS";
 };
-
 
 //Prints
 class Prints:public Command {
@@ -253,6 +363,11 @@ public:
     Prints( );
     void display( );
     void add();
+    std::string get_instruction( );
+    int get_count( );
+private:
+    int count = -1;
+    std::string instruction = "OP_PRINTS";
 };
 
 #endif

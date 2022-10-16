@@ -18,14 +18,15 @@ Statement_Buffer *Statement_Buffer::create_statement_buffer() {
 }
 
 void Statement_Buffer::add_statement(Command * item){
+    item->instruction = item->get_instruction();
+    item->count = item->get_count(); 
     statement_vector.push_back(item);
-    std::cout << "TESTING: " <<item->instruction << "\n";
 }
 
 void Statement_Buffer::printContent(){
     std::cout << "Buffer Statement: \n";
     for (int i = 0; i < statement_vector.size(); i++)
     {
-        std::cout << statement_vector.at(i)->instruction << "\n";
+        std::cout << statement_vector.at(i)->instruction << ", " << statement_vector.at(i)->count << "\n";
     }
 }
