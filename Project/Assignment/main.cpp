@@ -37,21 +37,27 @@ int main(int argc, char** argv){
     myfile.open(argv[1]);
     std::string myline;
     if (myfile.is_open()){
-        //ISSUE: Fix 0 problem!!!
-        
+       	//REPEATING END CONDITION FIXED - Joseph 
+		
         //Check for start in the beginning of the file
         std::getline(myfile, myline);
         if (myline != "start"){
             std::cout << "No start\n";
             exit(0);
         }
+		
         //Check rest of the file
-        while (myfile){
+        while (myfile.good()){
             std::getline(myfile, myline);
-            Command* curr_command = command_map->lookUp(myline.substr(0, myline.find(" ")));
-            curr_command->display();
-
-            //end condition
+			//shift the substr(0, myline.find(" "))) into the class
+			Command* curr_command = command_map->lookUp(myline);		
+			curr_command->display();
+            if(curr_command -> check) {
+				if(!(curr_command -> check_args(myline))) {
+					std::cout << "Invalid input arguments!";
+				}
+			}
+			//end condition
         }
     }
     else {

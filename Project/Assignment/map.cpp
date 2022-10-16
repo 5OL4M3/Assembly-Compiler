@@ -12,7 +12,8 @@ void Map::insert(std::string key, Command* _data) {
 
 Command * Map::lookUp(std::string key){
     std::map<std::string,Command*>::iterator it; 
-    it = command_val.find(key);
+	
+	it = command_val.find(key.substr(0, key.find(" ")));
     if (it == command_val.end())
     {
         std::cout << "Invalid Syntax" << std::endl;
