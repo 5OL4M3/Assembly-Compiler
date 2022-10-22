@@ -2,10 +2,11 @@
 #include <map>
 #include <iostream>
 #include "statement_buffer.h"
+#include "string_buffer.h"
 #include "map.h"
 #include "symbol_table.h"
 #include "command.h"
-
+#include "functions.h"
 
 //Command
 
@@ -13,28 +14,88 @@ Command::Command(){}
 //check the number of arguments and argument values in this function
 //enter the values into the symbol table
 void Command::assign_args(std::string _myline) {
-	std::cout << expected << std::endl;
 	//find number of args
 	int num_args = 0;
 	for(int i = 0; i < _myline.length(); i++) {
+
 		if(_myline[i] == 32) {
 			num_args++;
 		}
 	}
-	if(num_args == expected) {
-		//std::cout << "correct";
-		var1 = "hello";
-	}
-	else {
+
+	if(num_args != expected) {
 		std::cout << "ERROR:\n  Invalid input arguments!";
 		exit(0);
 	}
-}
+	//assign corresponding arguments
+	std::string temp_string = "";
+	for(int i = 0; i < _myline.length(); i++) {
+		temp_string += _myline[i];
+		if(_myline[i] == 32) {
+			if (expected == 2) {
+				var1 = cleanString(temp_string);
+			}
+			temp_string = "";
+		}
+		if(i == _myline.length() - 1) {
+			//last iteration of the loop
+			if (expected == 1) {
+				var1 = cleanString(temp_string);
+			}
+			else {
+				var2 = cleanString(temp_string);
+			}
+		}
+	}
+	//check if data type is consistent
+	//Check type of var1
+	if (expected == 0 || data_type1 == "b") {
+		return;
+	}
 
+	std::string var1_type;
+	if (isalpha(var1[0])){
+		var1_type = "s";
+	}
+	else{
+		for(int i = 0; i < var1.length(); i++){
+			if (isalpha(var1[i])){
+				std::cout << "Variables can't start with an int and int can't start with an char\n";
+				exit(0);
+			}
+		}
+		var1_type = "i";
+	}
+	if (var1_type != data_type1){
+		std::cout << "First argument is of incorrect type\n";
+		exit(0);
+	}
+
+	if (expected == 2){
+		std::string var2_type;
+		if (isalpha(var2[0])){
+			var2_type = "s";
+		}
+		else{
+			for(int i = 0; i < var2.length(); i++){
+				if (isalpha(var2[i])){
+					std::cout << "Variables can't start with an int and int can't start with an char\n";
+					exit(0);
+				}
+			}
+			var2_type = "i";
+		}
+		if (var2_type != data_type2){
+			std::cout << "Second argument is of incorrect type\n";
+			exit(0);
+		}
+	}
+}
 
 //Declscal 
 Declscal::Declscal( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Declscal::display( ) {
@@ -56,6 +117,8 @@ int Declscal::get_count( ){
 //Declarr
 Declarr::Declarr( ) {
 	expected = 2;
+	data_type1 = "s";
+	data_type2 = "i";
 }
 
 void Declarr::display( ) {
@@ -76,6 +139,7 @@ int Declarr::get_count( ){
 //Label
 Label::Label( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Label::display( ) {
@@ -97,6 +161,7 @@ int Label::get_count( ){
 //Gosublabel
 Gosublabel::Gosublabel( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Gosublabel::display( ) {
@@ -167,7 +232,7 @@ int End::get_count( ){
 
 //Exit
 Exit::Exit( ) {
-	int epxected = 0;		//JM
+	int expected = 0;		//JM
 }
 
 void Exit::display( ) {
@@ -193,6 +258,7 @@ int Exit::get_count( ){
 //Jump
 Jump::Jump( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Jump::display( ) {
@@ -218,6 +284,7 @@ int Jump::get_count( ){
 //Jumpzero
 Jumpzero::Jumpzero( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Jumpzero::display( ) {
@@ -243,6 +310,7 @@ int Jumpzero::get_count( ){
 //Jumpnzero
 Jumpnzero::Jumpnzero( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Jumpnzero::display( ) {
@@ -268,6 +336,7 @@ int Jumpnzero::get_count( ){
 //Gosub
 Gosub::Gosub( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Gosub::display( ) {
@@ -318,6 +387,7 @@ int Return::get_count( ){
 //Pushscal
 Pushscal::Pushscal( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Pushscal::display( ) {
@@ -343,6 +413,7 @@ int Pushscal::get_count( ){
 //Pusharr
 Pusharr::Pusharr( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Pusharr::display( ) {
@@ -368,6 +439,7 @@ int Pusharr::get_count( ){
 //Pushi
 Pushi::Pushi( ) {
 	expected = 1;
+	data_type1 = "i";
 }
 
 void Pushi::display( ) {
@@ -418,6 +490,7 @@ int Pop::get_count( ){
 //Popscal
 Popscal::Popscal( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Popscal::display( ) {
@@ -443,6 +516,7 @@ int Popscal::get_count( ){
 //Poparr
 Poparr::Poparr( ) {
 	expected = 1;
+	data_type1 = "s";
 }
 
 void Poparr::display( ) {
@@ -643,6 +717,7 @@ int Printtos::get_count( ){
 //Prints
 Prints::Prints( ) {
 	expected = 1;
+	data_type1 = "b"; 
 }
 
 void Prints::display( ) {
@@ -653,6 +728,8 @@ void Prints::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
+	String_Buffer * string_buffer = String_Buffer::create_string_buffer();
+	String_Buffer::add_statement(this);
 }
 
 std::string Prints::get_instruction( ){

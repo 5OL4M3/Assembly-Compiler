@@ -1,13 +1,13 @@
 #ifndef STATEMENT_BUFFER_H_
 #define STATEMENT_BUFFER_H_
 
-#include <string>
-#include <map>
 #include <iostream>
+#include <fstream>
+#include <vector>
 #include "map.h"
 #include "symbol_table.h"
 #include "command.h"
-#include <vector>
+#include "functions.h"
 
 class Statement_Buffer{
 private:
@@ -15,7 +15,8 @@ private:
     static std::vector<Command *> statement_vector;
     Statement_Buffer();
 public:
-    static Statement_Buffer * create_statement_buffer(); 
+    static Statement_Buffer * create_statement_buffer();
+    static int index; 
     static void add_statement(Command *);
     static void printContent();
 };

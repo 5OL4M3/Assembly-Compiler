@@ -1,12 +1,14 @@
 #ifndef MAP_H_
 #define MAP_H_
 
-#include <string>
-#include <map>
 #include <iostream>
+#include <fstream>
+#include <vector>
 #include "statement_buffer.h"
 #include "symbol_table.h"
 #include "command.h"
+#include "functions.h"
+#include <map>
 
 class Map {
 private:

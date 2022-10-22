@@ -1,19 +1,22 @@
 #ifndef COMMAND_H_
 #define COMMAND_H_
+#include <iostream>
+#include <fstream>
+#include <vector>
 #include "statement_buffer.h"
 #include "map.h"
 #include "symbol_table.h"
-
+#include "functions.h"
 
 
 class Command{
 public:
     Command();
     std::string instruction;
-    std::string var1;       
-    std::string var2;
-    std::string data_type1;
-    std::string data_type2;
+    std::string var1;//User argument 1
+    std::string var2; //User argument 2
+    std::string data_type1; //The data type of first arg (s = string; i = int)
+    std::string data_type2; // The data type of second arg (s = string; i = int)
     
     int count;
     bool check;		//if we should check for additional arguments for eg. 6 in pushi 6

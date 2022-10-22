@@ -1,19 +1,25 @@
 #ifndef SYMBOL_TABLE_H_
 #define SYMBOL_TABLE_H_
 
-#include <string>
 #include <iostream>
+#include <fstream>
+#include <vector>
 #include "statement_buffer.h"
 #include "map.h"
 #include "command.h"
+#include "functions.h"
+#include "table_entry.h"
 
 class Symbol_Table{
 private:
     static Symbol_Table * instance;
-    std::map<std::string, int *> symbol_table;
+    static std::vector<Table_Entry *> symbol_vector;
     Symbol_Table();
+    
 public:
     static Symbol_Table * create_symbol_table();
+    static void add_symbol(Command *);
+    static void printContent();
 };
 
 #endif
