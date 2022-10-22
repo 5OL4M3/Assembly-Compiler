@@ -10,6 +10,11 @@ class Command{
 public:
     Command();
     std::string instruction;
+    std::string var1;       
+    std::string var2;
+    std::string data_type1;
+    std::string data_type2;
+    
     int count;
     bool check;		//if we should check for additional arguments for eg. 6 in pushi 6
 	int expected = 0;	//the number of additional arguments we should expect
@@ -17,7 +22,7 @@ public:
     virtual void add() = 0;
     virtual std::string get_instruction() = 0;
     virtual int get_count() = 0;
-	bool check_args(std::string);
+	void assign_args(std::string);
 private:
     std::string syntax;
 };

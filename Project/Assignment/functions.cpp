@@ -28,3 +28,4 @@ std::string cleanString(std::string str){
     //std::cout << "After: " << str << "|" <<std::endl;
     return str;
 }
+

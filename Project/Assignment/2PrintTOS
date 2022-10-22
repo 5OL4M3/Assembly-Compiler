@@ -1,6 +1,5 @@
 start                        
 pushi 6
-jump 
 pushi    7   
 mul
 printtos

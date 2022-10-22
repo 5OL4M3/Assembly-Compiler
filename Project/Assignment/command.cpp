@@ -12,9 +12,23 @@
 Command::Command(){}
 //check the number of arguments and argument values in this function
 //enter the values into the symbol table
-bool Command::check_args(std::string _myline) {
+void Command::assign_args(std::string _myline) {
 	std::cout << expected << std::endl;
-	return true;
+	//find number of args
+	int num_args = 0;
+	for(int i = 0; i < _myline.length(); i++) {
+		if(_myline[i] == 32) {
+			num_args++;
+		}
+	}
+	if(num_args == expected) {
+		//std::cout << "correct";
+		var1 = "hello";
+	}
+	else {
+		std::cout << "ERROR:\n  Invalid input arguments!";
+		exit(0);
+	}
 }
 
 
