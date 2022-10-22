@@ -12,14 +12,29 @@
 Command::Command(){}
 //check the number of arguments and argument values in this function
 //enter the values into the symbol table
-bool Command::check_args(std::string _myline) {
-	return true;
+void Command::assign_args(std::string _myline) {
+	std::cout << expected << std::endl;
+	//find number of args
+	int num_args = 0;
+	for(int i = 0; i < _myline.length(); i++) {
+		if(_myline[i] == 32) {
+			num_args++;
+		}
+	}
+	if(num_args == expected) {
+		//std::cout << "correct";
+		var1 = "hello";
+	}
+	else {
+		std::cout << "ERROR:\n  Invalid input arguments!";
+		exit(0);
+	}
 }
 
 
 //Declscal 
 Declscal::Declscal( ) {
-	check = true;	//indicates whether we check for more parameters for eg. A in declscal A
+	expected = 1;
 }
 
 void Declscal::display( ) {
@@ -40,7 +55,7 @@ int Declscal::get_count( ){
 
 //Declarr
 Declarr::Declarr( ) {
-	check = true;	
+	expected = 2;
 }
 
 void Declarr::display( ) {
@@ -60,7 +75,7 @@ int Declarr::get_count( ){
 
 //Label
 Label::Label( ) {
-	bool check = true;
+	expected = 1;
 }
 
 void Label::display( ) {
@@ -81,7 +96,7 @@ int Label::get_count( ){
 
 //Gosublabel
 Gosublabel::Gosublabel( ) {
-	bool check = true;
+	expected = 1;
 }
 
 void Gosublabel::display( ) {
@@ -106,7 +121,7 @@ int Gosublabel::get_count( ){
 
 //Start
 Start::Start ( ){
-	bool check = false;
+	expected = 0;		
 	std::string instruction = "OP_START_PROGRAM";
 	int count = -1; //Count is set to unknown which is -1
 }
@@ -131,7 +146,7 @@ int Start::get_count( ){
 
 //End
 End::End( ) {
-	bool check = false;
+	expected = 0;		
 }
 
 void End::display( ) {
@@ -152,7 +167,7 @@ int End::get_count( ){
 
 //Exit
 Exit::Exit( ) {
-	bool check = false;
+	int epxected = 0;		//JM
 }
 
 void Exit::display( ) {
@@ -177,7 +192,7 @@ int Exit::get_count( ){
 
 //Jump
 Jump::Jump( ) {
-	bool check = true;
+	expected = 1;
 }
 
 void Jump::display( ) {
@@ -202,7 +217,7 @@ int Jump::get_count( ){
 
 //Jumpzero
 Jumpzero::Jumpzero( ) {
-	bool check = true;
+	expected = 1;
 }
 
 void Jumpzero::display( ) {
@@ -227,7 +242,7 @@ int Jumpzero::get_count( ){
 
 //Jumpnzero
 Jumpnzero::Jumpnzero( ) {
-	bool check = true;
+	expected = 1;
 }
 
 void Jumpnzero::display( ) {
@@ -252,7 +267,7 @@ int Jumpnzero::get_count( ){
 
 //Gosub
 Gosub::Gosub( ) {
-	bool check = true;
+	expected = 1;
 }
 
 void Gosub::display( ) {
@@ -277,7 +292,7 @@ int Gosub::get_count( ){
 
 //Return
 Return::Return( ) {
-	bool check = false;
+	expected = 0;		
 }
 
 void Return::display( ) {
@@ -302,7 +317,7 @@ int Return::get_count( ){
 
 //Pushscal
 Pushscal::Pushscal( ) {
-	bool check = true;
+	expected = 1;
 }
 
 void Pushscal::display( ) {
@@ -327,7 +342,7 @@ int Pushscal::get_count( ){
 
 //Pusharr
 Pusharr::Pusharr( ) {
-	bool check = true;
+	expected = 1;
 }
 
 void Pusharr::display( ) {
@@ -352,7 +367,6 @@ int Pusharr::get_count( ){
 
 //Pushi
 Pushi::Pushi( ) {
-	check = true;
 	expected = 1;
 }
 
@@ -378,7 +392,7 @@ int Pushi::get_count( ){
 
 //Pop
 Pop::Pop( ) {
-	check = false;
+	expected = 0; 	//JM
 }
 
 void Pop::display( ) {
@@ -403,7 +417,7 @@ int Pop::get_count( ){
 
 //Popscal
 Popscal::Popscal( ) {
-	check = true;
+	expected = 1;
 }
 
 void Popscal::display( ) {
@@ -428,7 +442,7 @@ int Popscal::get_count( ){
 
 //Poparr
 Poparr::Poparr( ) {
-	check = true;
+	expected = 1;
 }
 
 void Poparr::display( ) {
@@ -453,7 +467,7 @@ int Poparr::get_count( ){
 
 //Dup
 Dup::Dup( ) {
-	check = false;
+	expected = 0; 	//JM
 }
 
 void Dup::display( ) {
@@ -478,7 +492,7 @@ int Dup::get_count( ){
 
 //Swap
 Swap::Swap( ) {
-	check = false;
+	expected = 0; 	//JM
 }
 
 void Swap::display( ) {
@@ -503,7 +517,7 @@ int Swap::get_count( ){
 
 //Add
 Add::Add( ) {
-	check = false;
+	expected = 0; 	//JM
 }
 
 void Add::display( ) {
@@ -528,7 +542,7 @@ int Add::get_count( ){
 
 //Negate
 Negate::Negate( ) {
-	check = false;
+	expected = 0; 	//JM
 }
 
 void Negate::display( ) {
@@ -553,7 +567,7 @@ int Negate::get_count( ){
 
 //Mul
 Mul::Mul( ) {
-	check = false;
+	expected = 0; 	//JM
 }
 
 void Mul::display( ) {
@@ -578,7 +592,7 @@ int Mul::get_count( ){
 
 //Div
 Div::Div( ) {
-	check = false;
+	expected = 0; 	//JM
 }
 
 void Div::display( ) {
@@ -603,7 +617,7 @@ int Div::get_count( ){
 
 //Printtos
 Printtos::Printtos( ) {
-	check = false;
+	expected = 0;
 }
 
 void Printtos::display( ) {
@@ -628,7 +642,7 @@ int Printtos::get_count( ){
 
 //Prints
 Prints::Prints( ) {
-	check = true;
+	expected = 1;
 }
 
 void Prints::display( ) {

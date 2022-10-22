@@ -62,12 +62,8 @@ int main(int argc, char** argv){
 			Command* curr_command = command_map->lookUp(myline);		
 			curr_command->display();
             curr_command->add();
-            if(curr_command -> check) {
-				if(!(curr_command -> check_args(myline))) {
-					std::cout << "ERROR:\n  Invalid input arguments!";
-				}
+            curr_command -> assign_args(myline);
     
-			}
         }
         //Checks if there are any commands after end
         while (myfile.good()){
