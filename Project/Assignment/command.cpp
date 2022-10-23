@@ -96,22 +96,26 @@ void Command::assign_args(std::string _myline) {
 Declscal::Declscal( ) {
 	expected = 1;
 	data_type1 = "s";
+	data_size = 1;
 }
 
 void Declscal::display( ) {
-std::cout << "Declscal called" << std::endl;
+	std::cout << "Declscal called" << std::endl;
 }
 
 void Declscal::add( ){
-	std::cout << "Adding to " << std::endl;
+	std::cout << "Adding to Symbol Table" << std::endl;
+	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
+	Symbol_Table::add_symbol(this);
 }
 
 std::string Declscal::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
 }
 
 int Declscal::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+}
+
+void Declscal::perform_update(){
 }
 
 //Declarr
@@ -122,46 +126,61 @@ Declarr::Declarr( ) {
 }
 
 void Declarr::display( ) {
-std::cout << "Declarr called" << std::endl;}
+	std::cout << "Declarr called" << std::endl;}
 
 void Declarr::add( ){
-	std::cout << "Adding to " << std::endl;
+	std::cout << "Adding to Symbol Table" << std::endl;
+	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
+	Symbol_Table::add_symbol(this); 
 }
 
 std::string Declarr::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 }
 
 int Declarr::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
+}
+
+void Declarr::perform_update(){
 }
 
 //Label
 Label::Label( ) {
 	expected = 1;
 	data_type1 = "s";
+	data_size = 0;
+	add_index = 1;
 }
 
 void Label::display( ) {
-std::cout << "Label called" << std::endl;
+	std::cout << "Label called" << std::endl;
 }
 
 void Label::add( ){
-	std::cout << "Adding to " << std::endl;
+	std::cout << "Adding to Symbol Table" << std::endl;
+	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
+	Symbol_Table::add_symbol(this); 
 }
 
 std::string Label::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 }
 
 int Label::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
+}
+
+void Label::perform_update(){
 }
 
 //Gosublabel
 Gosublabel::Gosublabel( ) {
 	expected = 1;
 	data_type1 = "s";
+	data_size = 0;
+	need_update = 1;
+	change_scope = 1;
 }
 
 void Gosublabel::display( ) {
@@ -172,23 +191,36 @@ void Gosublabel::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
+	std::cout << "Adding to Symbol Table" << std::endl;
+	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
+	Symbol_Table::add_symbol(this);
 }
 
 std::string Gosublabel::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Gosublabel::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Gosublabel::perform_update(){
+	std::cout << "Updating the count" << std::endl;
+	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
+	if (scope == 1){
+		count = Symbol_Table::num_var_scope1;
+	}
+	else if (scope == 2){
+		count = Symbol_Table::num_var_scope2;
+	}
 }
 
 //Start
 Start::Start ( ){
 	expected = 0;		
-	std::string instruction = "OP_START_PROGRAM";
-	int count = -1; //Count is set to unknown which is -1
+	need_update = 1;
 }
 void Start::display( ){
 	std::cout << "Start called" << std::endl;
@@ -209,6 +241,10 @@ int Start::get_count( ){
 	return count;
 }
 
+void Start::perform_update(){
+	std::cout << "Updating the count" << std::endl;
+}
+
 //End
 End::End( ) {
 	expected = 0;		
@@ -219,15 +255,15 @@ std::cout << "End called" << std::endl;
 }
 
 void End::add( ){
-	std::cout << "Adding to " << std::endl;
 }
 
 std::string End::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
 }
 
 int End::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+}
+
+void End::perform_update(){
 }
 
 //Exit
@@ -236,7 +272,7 @@ Exit::Exit( ) {
 }
 
 void Exit::display( ) {
-std::cout << "Exit called" << std::endl;
+	std::cout << "Exit called" << std::endl;
 }
 
 void Exit::add( ){
@@ -246,23 +282,27 @@ void Exit::add( ){
 }
 
 std::string Exit::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Exit::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Exit::perform_update(){
 }
 
 //Jump
 Jump::Jump( ) {
 	expected = 1;
 	data_type1 = "s";
+	need_update = 1;
 }
 
 void Jump::display( ) {
-std::cout << "Jump called" << std::endl;
+	std::cout << "Jump called" << std::endl;
 }
 
 void Jump::add( ){
@@ -272,23 +312,28 @@ void Jump::add( ){
 }
 
 std::string Jump::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Jump::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Jump::perform_update(){
+	std::cout << "Updating the count" << std::endl;
 }
 
 //Jumpzero
 Jumpzero::Jumpzero( ) {
 	expected = 1;
 	data_type1 = "s";
+	need_update = 1;
 }
 
 void Jumpzero::display( ) {
-std::cout << "Jumpzero called" << std::endl;
+	std::cout << "Jumpzero called" << std::endl;
 }
 
 void Jumpzero::add( ){
@@ -298,23 +343,28 @@ void Jumpzero::add( ){
 }
 
 std::string Jumpzero::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Jumpzero::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Jumpzero::perform_update(){
+	std::cout << "Updating the count" << std::endl;
 }
 
 //Jumpnzero
 Jumpnzero::Jumpnzero( ) {
 	expected = 1;
 	data_type1 = "s";
+	need_update = 1;
 }
 
 void Jumpnzero::display( ) {
-std::cout << "Jumpnzero called" << std::endl;
+	std::cout << "Jumpnzero called" << std::endl;
 }
 
 void Jumpnzero::add( ){
@@ -324,23 +374,28 @@ void Jumpnzero::add( ){
 }
 
 std::string Jumpnzero::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Jumpnzero::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Jumpnzero::perform_update(){
+	std::cout << "Updating the count" << std::endl;
 }
 
 //Gosub
 Gosub::Gosub( ) {
 	expected = 1;
 	data_type1 = "s";
+	need_update = 1;
 }
 
 void Gosub::display( ) {
-std::cout << "Gosub called" << std::endl;
+	std::cout << "Gosub called" << std::endl;
 }
 
 void Gosub::add( ){
@@ -350,38 +405,47 @@ void Gosub::add( ){
 }
 
 std::string Gosub::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Gosub::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Gosub::perform_update(){
+	std::cout << "Updating the count" << std::endl;
 }
 
 //Return
 Return::Return( ) {
 	expected = 0;		
+	change_scope = -1;
 }
 
 void Return::display( ) {
-std::cout << "Return called" << std::endl;
+	std::cout << "Return called" << std::endl;
 }
 
 void Return::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
+	Statement_Buffer::update_count(scope);
 }
 
 std::string Return::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Return::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Return::perform_update(){
 }
 
 //Pushscal
@@ -391,12 +455,13 @@ Pushscal::Pushscal( ) {
 }
 
 void Pushscal::display( ) {
-std::cout << "Pushscal called" << std::endl;
+	std::cout << "Pushscal called" << std::endl;
 }
 
 void Pushscal::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
+	count = Symbol_Table::find_location(var1);
 	Statement_Buffer::add_statement(this);
 }
 
@@ -410,6 +475,9 @@ int Pushscal::get_count( ){
 	return count;
 }
 
+void Pushscal::perform_update(){
+}
+
 //Pusharr
 Pusharr::Pusharr( ) {
 	expected = 1;
@@ -417,7 +485,7 @@ Pusharr::Pusharr( ) {
 }
 
 void Pusharr::display( ) {
-std::cout << "Pusharr called" << std::endl;
+	std::cout << "Pusharr called" << std::endl;
 }
 
 void Pusharr::add( ){
@@ -427,13 +495,16 @@ void Pusharr::add( ){
 }
 
 std::string Pusharr::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Pusharr::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Pusharr::perform_update(){
 }
 
 //Pushi
@@ -443,23 +514,27 @@ Pushi::Pushi( ) {
 }
 
 void Pushi::display( ) {
-std::cout << "Pushi called" << std::endl;
+	std::cout << "Pushi called" << std::endl;
 }
 
 void Pushi::add( ){
+	count = stoi(var1);		//set count to corresponding integer value
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
 
 std::string Pushi::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Pushi::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Pushi::perform_update(){
 }
 
 //Pop
@@ -468,7 +543,7 @@ Pop::Pop( ) {
 }
 
 void Pop::display( ) {
-std::cout << "Pop called" << std::endl;
+	std::cout << "Pop called" << std::endl;
 }
 
 void Pop::add( ){
@@ -478,13 +553,16 @@ void Pop::add( ){
 }
 
 std::string Pop::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Pop::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Pop::perform_update(){
 }
 
 //Popscal
@@ -494,23 +572,27 @@ Popscal::Popscal( ) {
 }
 
 void Popscal::display( ) {
-std::cout << "Popscal called" << std::endl;
+	std::cout << "Popscal called" << std::endl;
 }
 
 void Popscal::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
+	count = Symbol_Table::find_location(var1);
 	Statement_Buffer::add_statement(this);
 }
 
 std::string Popscal::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Popscal::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Popscal::perform_update(){
 }
 
 //Poparr
@@ -520,23 +602,27 @@ Poparr::Poparr( ) {
 }
 
 void Poparr::display( ) {
-std::cout << "Poparr called" << std::endl;
+	std::cout << "Poparr called" << std::endl;
 }
 
 void Poparr::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
+	count = Symbol_Table::find_location(var1);
 	Statement_Buffer::add_statement(this);
 }
 
 std::string Poparr::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Poparr::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Poparr::perform_update(){
 }
 
 //Dup
@@ -545,7 +631,7 @@ Dup::Dup( ) {
 }
 
 void Dup::display( ) {
-std::cout << "Dup called" << std::endl;
+	std::cout << "Dup called" << std::endl;
 }
 
 void Dup::add( ){
@@ -555,13 +641,16 @@ void Dup::add( ){
 }
 
 std::string Dup::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Dup::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Dup::perform_update(){
 }
 
 //Swap
@@ -570,7 +659,7 @@ Swap::Swap( ) {
 }
 
 void Swap::display( ) {
-std::cout << "Swap called" << std::endl;
+	std::cout << "Swap called" << std::endl;
 }
 
 void Swap::add( ){
@@ -580,13 +669,16 @@ void Swap::add( ){
 }
 
 std::string Swap::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Swap::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Swap::perform_update(){
 }
 
 //Add
@@ -595,7 +687,7 @@ Add::Add( ) {
 }
 
 void Add::display( ) {
-std::cout << "Add called" << std::endl;
+	std::cout << "Add called" << std::endl;
 }
 
 void Add::add( ){
@@ -605,13 +697,16 @@ void Add::add( ){
 }
 
 std::string Add::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Add::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Add::perform_update(){
 }
 
 //Negate
@@ -620,7 +715,7 @@ Negate::Negate( ) {
 }
 
 void Negate::display( ) {
-std::cout << "Negate called" << std::endl;
+	std::cout << "Negate called" << std::endl;
 }
 
 void Negate::add( ){
@@ -630,13 +725,16 @@ void Negate::add( ){
 }
 
 std::string Negate::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Negate::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Negate::perform_update(){
 }
 
 //Mul
@@ -645,7 +743,7 @@ Mul::Mul( ) {
 }
 
 void Mul::display( ) {
-std::cout << "Mul called" << std::endl;
+	std::cout << "Mul called" << std::endl;
 }
 
 void Mul::add( ){
@@ -655,13 +753,16 @@ void Mul::add( ){
 }
 
 std::string Mul::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Mul::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Mul::perform_update(){
 }
 
 //Div
@@ -670,7 +771,7 @@ Div::Div( ) {
 }
 
 void Div::display( ) {
-std::cout << "Div called" << std::endl;
+	std::cout << "Div called" << std::endl;
 }
 
 void Div::add( ){
@@ -680,13 +781,16 @@ void Div::add( ){
 }
 
 std::string Div::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Div::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Div::perform_update(){
 }
 
 //Printtos
@@ -695,7 +799,7 @@ Printtos::Printtos( ) {
 }
 
 void Printtos::display( ) {
-std::cout << "Printtos called" << std::endl;
+	std::cout << "Printtos called" << std::endl;
 }
 
 void Printtos::add( ){
@@ -705,13 +809,16 @@ void Printtos::add( ){
 }
 
 std::string Printtos::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Printtos::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Printtos::perform_update(){
 }
 
 //Prints
@@ -721,7 +828,7 @@ Prints::Prints( ) {
 }
 
 void Prints::display( ) {
-std::cout << "Prints called" << std::endl;
+	std::cout << "Prints called" << std::endl;
 }
 
 void Prints::add( ){
@@ -733,12 +840,15 @@ void Prints::add( ){
 }
 
 std::string Prints::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
+	//std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Prints::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
+	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+}
+
+void Prints::perform_update(){
 }
 

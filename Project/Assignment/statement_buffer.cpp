@@ -6,7 +6,7 @@
 //Statement Buffer
 Statement_Buffer* Statement_Buffer::instance = nullptr;
 
-int Statement_Buffer::index = 0;
+int Statement_Buffer::index = -1;
 
 std::vector<Command *> Statement_Buffer::statement_vector;
 
@@ -31,5 +31,24 @@ void Statement_Buffer::printContent(){
     for (int i = 0; i < statement_vector.size(); i++)
     {
         std::cout << statement_vector.at(i)->instruction << ", " << statement_vector.at(i)->count << "\n";
+    }
+}
+
+void Statement_Buffer::update_count(int scope){
+    std::cout << "updating count:\n";
+    //If in subroutine 
+    if (scope == 2){
+        int i = statement_vector.size() - 1;
+        while (statement_vector.at(i)->scope == scope){
+            std::cout << "Looking at " << statement_vector.at(i)->instruction << "\n";
+            if (statement_vector.at(i)->need_update){
+                statement_vector.at(i)->perform_update();
+            }
+            i -= 1;
+        }
+        std::cout << "Looking at " << statement_vector.at(i)->instruction << "\n";
+        if (statement_vector.at(i)->need_update){
+            statement_vector.at(i)->perform_update();
+         }
     }
 }

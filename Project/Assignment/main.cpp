@@ -27,7 +27,9 @@ int main(int argc, char** argv){
     for (int i = 0; i < COMMAND_AMOUNT; i++){
         command_map->insert(command_list[i], object_list[i]);
     }
-    
+    //Declare the Scope:
+    int scope = 1; 
+
     //Create Symbol Table:
     Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
 
@@ -53,6 +55,7 @@ int main(int argc, char** argv){
 		Command* curr_command = command_map->lookUp(myline);
         curr_command->display();
         curr_command->add();
+        std::cout << "Index: " << Statement_Buffer::index << "\n";
         //Check rest of the file
         while (myfile.good()){
             std::getline(myfile, myline);
@@ -62,13 +65,14 @@ int main(int argc, char** argv){
                 break;
             }
 			//shift the substr(0, myline.find(" "))) into the class
-			Command* curr_command = command_map->lookUp(myline);		
+			Command* curr_command = command_map->lookUp(myline);
+            curr_command->scope = scope;
+            std::cout << "\n--Scope: " << scope <<"\n";	
 			curr_command->display();
             curr_command -> assign_args(myline);
             curr_command->add();
-            std::cout << curr_command -> var1 << "\n";
-            std::cout << curr_command -> var2 << "\n";
-    
+            scope = scope + curr_command->change_scope;
+            std::cout << "Index: " << Statement_Buffer::index << "\n";
         }
         //Checks if there are any commands after end
         while (myfile.good()){

@@ -17,13 +17,18 @@ public:
     std::string var2; //User argument 2
     std::string data_type1; //The data type of first arg (s = string; i = int)
     std::string data_type2; // The data type of second arg (s = string; i = int)
-    
+    int data_size; //size of the data
+    int need_update = 0; //will need to be update when returned
+    int scope; 
+    int change_scope = 0; //checks if scope needs to be changed
     int count;
     bool check;		//if we should check for additional arguments for eg. 6 in pushi 6
 	int expected = 0;	//the number of additional arguments we should expect
+    int add_index = 0; //this is for commands that add to symbol table with index of next statement
 	virtual void display() = 0;
     virtual void add() = 0;
     virtual std::string get_instruction() = 0;
+    virtual void perform_update() = 0; //updates the count 
     virtual int get_count() = 0;
 	void assign_args(std::string);
 private:
@@ -37,6 +42,7 @@ public:
     Declscal( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 };
@@ -48,6 +54,7 @@ public:
     Declarr( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 };
@@ -59,6 +66,7 @@ public:
     Label( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 };
@@ -70,6 +78,7 @@ public:
     Gosublabel( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private: 
@@ -83,6 +92,7 @@ public:
     Start( );
     void display( );
     void add( );
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -96,6 +106,7 @@ public:
     End( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 };
@@ -107,6 +118,7 @@ public:
     Exit( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -121,6 +133,7 @@ public:
     Jump( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -135,6 +148,7 @@ public:
     Jumpzero( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -149,6 +163,7 @@ public:
     Jumpnzero( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -163,6 +178,7 @@ public:
     Gosub( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -176,6 +192,7 @@ public:
     Return( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -190,6 +207,7 @@ public:
     Pushscal( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -204,6 +222,7 @@ public:
     Pusharr( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -218,6 +237,7 @@ public:
     Pushi( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -232,6 +252,7 @@ public:
     Pop( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -246,6 +267,7 @@ public:
     Popscal( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -260,6 +282,7 @@ public:
     Poparr( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -274,6 +297,7 @@ public:
     Dup( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -288,6 +312,7 @@ public:
     Swap( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -302,6 +327,7 @@ public:
     Add( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -316,6 +342,7 @@ public:
     Negate( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -330,6 +357,7 @@ public:
     Mul( );
 	void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -344,6 +372,7 @@ public:
     Div( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -358,6 +387,7 @@ public:
     Printtos( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
@@ -371,6 +401,7 @@ public:
     Prints( );
     void display( );
     void add();
+    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:

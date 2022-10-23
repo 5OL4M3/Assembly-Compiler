@@ -19,6 +19,7 @@ public:
     static int index; 
     static void add_statement(Command *);
     static void printContent();
+    static void update_count(int);
 };
 //Determines what command is being declared 
 
