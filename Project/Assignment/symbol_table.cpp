@@ -7,7 +7,8 @@
 //Symbol Table
 int Symbol_Table::num_var_scope1 = 0;
 int Symbol_Table::num_var_scope2 = 0;
-int Symbol_Table::scope2_index = 0;
+int Symbol_Table::scope1_index = -1;
+//int Symbol_Table::scope2_index = -1;
 
 Symbol_Table*  Symbol_Table::instance = nullptr;
 
@@ -22,7 +23,7 @@ Symbol_Table * Symbol_Table::create_symbol_table() {
     return instance;
 }
 
-void Symbol_Table::add_symbol(Command * item){
+void Symbol_Table::add_symbol(Command * item, int type){
     //Check size of the item
     int this_size;
     if (item->expected == 2){
@@ -31,25 +32,78 @@ void Symbol_Table::add_symbol(Command * item){
     else{
         this_size = item->data_size;
     }
-    
-    
-    //if scope is 2
-    if (item->scope == 2){
-        scope2_index += 1;
-        Table_Entry * dummy = new Table_Entry(item->var1, scope2_index, this_size, item->scope);
-        symbol_vector.push_back(dummy); 
-        return;
-    }
-    Table_Entry * dummy = new Table_Entry(item->var1, Statement_Buffer::index + item->add_index, this_size, item->scope);
-    symbol_vector.push_back(dummy); 
-}
 
-int Symbol_Table::find_location(std::string key, int scope){
-    for (int i = symbol_vector.size() - 1; i >= 0; i--){
-        if(symbol_vector.at(i)->get_name() == key && symbol_vector.at(i)->get_scope() == scope){
-            return symbol_vector.at(i)->get_index();
+    if (type == 0){//is label
+        Table_Entry * dummy = new Table_Entry(item->var1, Statement_Buffer::index + 1, this_size, item->scope);
+        symbol_vector.push_back(dummy); 
+    }
+    else if (type == 1){//is var
+        //if scope is 2
+        /* if (item->scope == 2){
+            scope2_index += 1;
+            Table_Entry * dummy = new Table_Entry(item->var1, scope2_index, this_size, item->scope);
+            symbol_vector.push_back(dummy); 
+        }
+        else {
+            scope1_index += 1;
+            Table_Entry * dummy = new Table_Entry(item->var1, scope1_index, this_size, item->scope);
+            symbol_vector.push_back(dummy);
+        } */
+        scope1_index += 1;
+        Table_Entry * dummy = new Table_Entry(item->var1, scope1_index, this_size, item->scope);
+        symbol_vector.push_back(dummy);
+    }
+    else if (type == 2){// is array
+        /* if (item->scope == 2){
+            for (int i = 0; i < stoi(item->var2); i++){
+                scope2_index += 1;
+                Table_Entry * dummy = new Table_Entry(item->var1, scope2_index, this_size, item->scope);
+                symbol_vector.push_back(dummy); 
+            }
+        }
+        else {
+            for (int i = 0; i < stoi(item->var2); i++){
+                scope1_index += 1;
+                Table_Entry * dummy = new Table_Entry(item->var1, scope1_index, this_size, item->scope);
+                symbol_vector.push_back(dummy); 
+            }
+        } */
+        
+        for (int i = 0; i < stoi(item->var2); i++){
+            if (item->scope == 1){
+                Symbol_Table::num_var_scope1 +=1;
+            }
+            else if (item->scope == 2){
+                Symbol_Table::num_var_scope2 +=1;
+            }
+            scope1_index += 1;
+            Table_Entry * dummy = new Table_Entry(item->var1, scope1_index, this_size, item->scope);
+            symbol_vector.push_back(dummy); 
         }
     }
+    else if (type == 3){//is gosublabel
+        Table_Entry * dummy = new Table_Entry(item->var1, Statement_Buffer::index, this_size, item->scope);
+        symbol_vector.push_back(dummy); 
+    }
+}
+
+int Symbol_Table::find_location(std::string key, int scope, int is_arr){
+    if (is_arr){
+        for (int i = 0; i < symbol_vector.size(); i++){
+            if(symbol_vector.at(i)->get_name() == key && symbol_vector.at(i)->get_scope() == scope){
+                std::cout << symbol_vector.at(i)->get_index();
+                return symbol_vector.at(i)->get_index();
+            }
+        }
+    }
+    else{
+        for (int i = symbol_vector.size() - 1; i >= 0; i--){
+            if(symbol_vector.at(i)->get_name() == key && symbol_vector.at(i)->get_scope() == scope){
+                return symbol_vector.at(i)->get_index();
+            }
+        }
+    }
+    return -1;
 }
 
 void Symbol_Table::printContent(){

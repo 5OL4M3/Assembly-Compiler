@@ -26,7 +26,6 @@ public:
     int count;
     bool check;		//if we should check for additional arguments for eg. 6 in pushi 6
 	int expected = 0;	//the number of additional arguments we should expect
-    int add_index = 0; //this is for commands that add to symbol table with index of next statement
 	virtual void display();
     virtual void add();
     virtual std::string get_instruction();

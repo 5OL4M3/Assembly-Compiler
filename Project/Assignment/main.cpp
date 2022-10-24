@@ -12,6 +12,7 @@
 
 int main(int argc, char** argv){
     //Array for the lists of Command 
+    bool big_boolean = false;       //tells us whether we ended with end
     std::string command_list[COMMAND_AMOUNT] = {"declscal", "declarr", "label", 
     "gosublabel", "start", "end", "exit", "jump", "jumpzero", "jumpnzero", "gosub", "return",
     "pushscal", "pusharr", "pushi", "pop", "popscal", "poparr", "dup", "swap", "add", "negate", "mul",
@@ -69,10 +70,11 @@ int main(int argc, char** argv){
             curr_command -> assign_args(myline);
             curr_command->add();
             scope = scope + curr_command->change_scope;
-            std::cout << "Index: " << Statement_Buffer::index << "\n";
-            std::cout << "1: " << Symbol_Table::num_var_scope1 << " 2: " << Symbol_Table::num_var_scope2 << "\n";
+            /* std::cout << "Index: " << Statement_Buffer::index << "\n";
+            std::cout << "1: " << Symbol_Table::num_var_scope1 << " 2: " << Symbol_Table::num_var_scope2 << "\n"; */
             if (myline == "end")
             {
+                big_boolean = true;
                 break;
             }
         }
@@ -88,6 +90,10 @@ int main(int argc, char** argv){
     }
     else {
         std::cout << "ERROR:\n  Error opening the File\n";
+        exit(0);
+    }
+    if (big_boolean == false) {
+        std::cout << "error: no end statement in program";
         exit(0);
     }
     symbol_table->printContent();

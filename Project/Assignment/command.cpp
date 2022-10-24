@@ -225,6 +225,11 @@ void Declscal::display( ) {
 }
 
 void Declscal::add( ){
+	std::cout <<Symbol_Table::find_location(var1, scope, 0) << "--------\n";
+	if(Symbol_Table::find_location(var1, scope, 0) != -1) {
+		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
+		exit(0);
+	}
 	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
 	if (scope == 1){
@@ -233,8 +238,7 @@ void Declscal::add( ){
     else if (scope == 2){
         Symbol_Table::num_var_scope2 +=1;
     }
-	Symbol_Table::add_symbol(this);
-
+	Symbol_Table::add_symbol(this, 1);
 }
 
 std::string Declscal::get_instruction( ){
@@ -257,15 +261,13 @@ void Declarr::display( ) {
 	std::cout << "Declarr called" << std::endl;}
 
 void Declarr::add( ){
+	if(Symbol_Table::find_location(var1, scope, 1) != -1) {
+		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
+		exit(0);
+	}
 	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
-	if (scope == 1){
-        Symbol_Table::num_var_scope1 +=1;
-    }
-    else if (scope == 2){
-        Symbol_Table::num_var_scope2 +=1;
-    }
-	Symbol_Table::add_symbol(this); 
+	Symbol_Table::add_symbol(this, 2); 
 }
 
 std::string Declarr::get_instruction( ){
@@ -284,7 +286,6 @@ Label::Label( ) {
 	expected = 1;
 	data_type1 = "s";
 	data_size = 0;
-	add_index = 1;
 }
 
 void Label::display( ) {
@@ -292,9 +293,13 @@ void Label::display( ) {
 }
 
 void Label::add( ){
+	if(Symbol_Table::find_location(var1, scope, 0) != -1) {
+		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
+		exit(0);
+	}
 	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
-	Symbol_Table::add_symbol(this); 
+	Symbol_Table::add_symbol(this, 0); 
 }
 
 std::string Label::get_instruction( ){
@@ -328,7 +333,7 @@ void Gosublabel::add( ){
 	Statement_Buffer::add_statement(this);
 	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
-	Symbol_Table::add_symbol(this);
+	Symbol_Table::add_symbol(this, 3);
 }
 
 std::string Gosublabel::get_instruction( ){
@@ -461,7 +466,7 @@ int Jump::get_count( ){
 void Jump::perform_update(){
 	std::cout << "Updating the count" << std::endl;
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
-	count = Symbol_Table::find_location(var1, scope);
+	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
 //Jumpzero
@@ -495,7 +500,7 @@ int Jumpzero::get_count( ){
 void Jumpzero::perform_update(){
 	std::cout << "Updating the count" << std::endl;
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
-	count = Symbol_Table::find_location(var1, scope);
+	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
 //Jumpnzero
@@ -529,7 +534,7 @@ int Jumpnzero::get_count( ){
 void Jumpnzero::perform_update(){
 	std::cout << "Updating the count" << std::endl;
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
-	count = Symbol_Table::find_location(var1, scope);
+	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
 //Gosub
@@ -563,7 +568,7 @@ int Gosub::get_count( ){
 void Gosub::perform_update(){
 	std::cout << "Updating the count" << std::endl;
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
-	count = Symbol_Table::find_location(var1, scope);
+	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
 //Return
@@ -611,7 +616,7 @@ void Pushscal::display( ) {
 void Pushscal::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
-	count = Symbol_Table::find_location(var1, scope);
+	count = Symbol_Table::find_location(var1, scope, 0);
 	Statement_Buffer::add_statement(this);
 }
 
@@ -642,6 +647,7 @@ void Pusharr::display( ) {
 void Pusharr::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
+	count = Symbol_Table::find_location(var1, scope, 1);
 	Statement_Buffer::add_statement(this);
 }
 
@@ -731,8 +737,9 @@ void Popscal::display( ) {
 void Popscal::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
-	std::cout << "Prior Count" << count << "\n";
-	count = Symbol_Table::find_location(var1, scope);
+	
+	count = Symbol_Table::find_location(var1, scope, 0);
+	std::cout << "--After Count" << scope << "\n";
 	Statement_Buffer::add_statement(this);
 }
 
@@ -763,7 +770,7 @@ void Poparr::display( ) {
 void Poparr::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
-	count = Symbol_Table::find_location(var1, scope);
+	count = Symbol_Table::find_location(var1, scope, 1);
 	Statement_Buffer::add_statement(this);
 }
 
