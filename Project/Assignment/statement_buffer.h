@@ -1,10 +1,8 @@
 #ifndef STATEMENT_BUFFER_H_
 #define STATEMENT_BUFFER_H_
-
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "map.h"
 #include "symbol_table.h"
 #include "command.h"
 #include "functions.h"

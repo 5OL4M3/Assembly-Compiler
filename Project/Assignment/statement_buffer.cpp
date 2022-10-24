@@ -1,6 +1,5 @@
 #include "statement_buffer.h"
 #include <string>
-#include <map>
 #include <iostream>
 
 //Statement Buffer
@@ -30,7 +29,7 @@ void Statement_Buffer::printContent(){
     std::cout << "\nBuffer Statement: \n";
     for (int i = 0; i < statement_vector.size(); i++)
     {
-        std::cout << statement_vector.at(i)->instruction << ", " << statement_vector.at(i)->count << "\n";
+        std::cout << "  " << statement_vector.at(i)->instruction << ", " << statement_vector.at(i)->count << "\n";
     }
 }
 

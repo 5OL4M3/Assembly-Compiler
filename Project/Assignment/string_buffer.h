@@ -2,9 +2,7 @@
 #define STRING_BUFFER_H_
 
 #include <string>
-#include <map>
 #include <iostream>
-#include "map.h"
 #include "symbol_table.h"
 #include "command.h"
 #include <vector>

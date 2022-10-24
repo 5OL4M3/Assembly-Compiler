@@ -1,6 +1,5 @@
 #include "string_buffer.h"
 #include <string>
-#include <map>
 #include <iostream>
 
 //String Buffer
@@ -23,7 +22,7 @@ void String_Buffer::add_statement(Command * item) {
 void String_Buffer::printContent() {
     std::cout << "\nString buffer: \n";
     for(int i = 0; i < string_vector.size(); i++)   {
-        std::cout << string_vector.at(i) << "\n";
+        std::cout << "  " << string_vector.at(i) << "\n";
     }
 }
 

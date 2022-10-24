@@ -5,7 +5,6 @@
 #include <fstream>
 #include <vector>
 #include "statement_buffer.h"
-#include "map.h"
 #include "command.h"
 #include "functions.h"
 #include "table_entry.h"

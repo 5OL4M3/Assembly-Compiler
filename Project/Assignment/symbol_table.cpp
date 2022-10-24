@@ -1,6 +1,5 @@
 #include "symbol_table.h"
 #include <string>
-#include <map>
 #include <iostream>
 
 
@@ -110,6 +109,6 @@ void Symbol_Table::printContent(){
     std::cout << "\nSymbol_Table: \n";
     for (int i = 0; i < symbol_vector.size(); i++)
     {
-        std::cout << symbol_vector.at(i)->get_name() << ", " << "<" << symbol_vector.at(i)->get_index() << "," << symbol_vector.at(i)->get_size() << ">\n";
+        std::cout << "  " << symbol_vector.at(i)->get_name() << ", " << "<" << symbol_vector.at(i)->get_index() << "," << symbol_vector.at(i)->get_size() << ">\n";
     }
 }

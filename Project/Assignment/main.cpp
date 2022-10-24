@@ -2,7 +2,6 @@
 #include <fstream>
 #include <vector>
 #include "statement_buffer.h"
-#include "map.h"
 #include "symbol_table.h"
 #include "command.h"
 #include "functions.h"
@@ -18,16 +17,19 @@ int main(int argc, char** argv){
     "pushscal", "pusharr", "pushi", "pop", "popscal", "poparr", "dup", "swap", "add", "negate", "mul",
     "div", "printtos", "prints"};
     //Array for the Command Objects
+    /*
     Command * object_list[COMMAND_AMOUNT] = {new Declscal( ), new Declarr( ), new Label( ), new Gosublabel( ), new Start( ),
     new End( ), new Exit( ), new Jump( ), new Jumpzero( ), new Jumpnzero( ), new Gosub( ), new Return( ), new Pushscal( ),
     new Pusharr( ), new Pushi( ), new Pop( ), new Popscal( ), new Poparr( ), new Dup( ), new Swap( ), new Add( ), new Negate( ), 
     new Mul( ), new Div( ), new Printtos( ), new Prints( )};
-    
+    */
     //Create Map for the commands
-    Map * command_map = new Map();
+    //Map * command_map = new Map();
+    /*
     for (int i = 0; i < COMMAND_AMOUNT; i++){
         command_map->insert(command_list[i], object_list[i]);
     }
+    */
     //Declare the Scope:
     int scope = 1; 
 
