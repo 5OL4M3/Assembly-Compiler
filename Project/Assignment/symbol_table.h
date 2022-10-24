@@ -16,7 +16,7 @@ private:
     static std::vector<Table_Entry *> symbol_vector;
     Symbol_Table();
 public:
-    static int find_location(std::string);
+    static int find_location(std::string, int);
     static int num_var_scope1;
     static int num_var_scope2;
     static Symbol_Table * create_symbol_table();

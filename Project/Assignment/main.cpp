@@ -53,6 +53,7 @@ int main(int argc, char** argv){
             exit(0);
         }
 		Command* curr_command = command_map->lookUp(myline);
+        curr_command->scope = scope;
         curr_command->display();
         curr_command->add();
         std::cout << "Index: " << Statement_Buffer::index << "\n";
@@ -60,19 +61,20 @@ int main(int argc, char** argv){
         while (myfile.good()){
             std::getline(myfile, myline);
             myline = cleanString(myline);
-            if (myline == "end")
-            {
-                break;
-            }
 			//shift the substr(0, myline.find(" "))) into the class
 			Command* curr_command = command_map->lookUp(myline);
-            curr_command->scope = scope;
             std::cout << "\n--Scope: " << scope <<"\n";	
+            curr_command->scope = scope;
 			curr_command->display();
             curr_command -> assign_args(myline);
             curr_command->add();
             scope = scope + curr_command->change_scope;
             std::cout << "Index: " << Statement_Buffer::index << "\n";
+            std::cout << "1: " << Symbol_Table::num_var_scope1 << " 2: " << Symbol_Table::num_var_scope2 << "\n";
+            if (myline == "end")
+            {
+                break;
+            }
         }
         //Checks if there are any commands after end
         while (myfile.good()){

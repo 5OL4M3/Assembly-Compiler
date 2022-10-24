@@ -11,6 +11,8 @@
 //Command
 
 Command::Command(){}
+Command::Command(const Command& p1){}
+
 //check the number of arguments and argument values in this function
 //enter the values into the symbol table
 void Command::assign_args(std::string _myline) {
@@ -106,7 +108,14 @@ void Declscal::display( ) {
 void Declscal::add( ){
 	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
+	if (scope == 1){
+        Symbol_Table::num_var_scope1 +=1;
+    }
+    else if (scope == 2){
+        Symbol_Table::num_var_scope2 +=1;
+    }
 	Symbol_Table::add_symbol(this);
+
 }
 
 std::string Declscal::get_instruction( ){
@@ -131,6 +140,12 @@ void Declarr::display( ) {
 void Declarr::add( ){
 	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
+	if (scope == 1){
+        Symbol_Table::num_var_scope1 +=1;
+    }
+    else if (scope == 2){
+        Symbol_Table::num_var_scope2 +=1;
+    }
 	Symbol_Table::add_symbol(this); 
 }
 
@@ -181,6 +196,7 @@ Gosublabel::Gosublabel( ) {
 	data_size = 0;
 	need_update = 1;
 	change_scope = 1;
+	count = -1;
 }
 
 void Gosublabel::display( ) {
@@ -207,20 +223,18 @@ int Gosublabel::get_count( ){
 }
 
 void Gosublabel::perform_update(){
+	std::cout << scope << "\n";
 	std::cout << "Updating the count" << std::endl;
-	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
-	if (scope == 1){
-		count = Symbol_Table::num_var_scope1;
-	}
-	else if (scope == 2){
-		count = Symbol_Table::num_var_scope2;
-	}
+	//this could be an issue later on; we are assuming that there are no nested subroutines
+	count = Symbol_Table::num_var_scope2;
+
 }
 
 //Start
 Start::Start ( ){
 	expected = 0;		
 	need_update = 1;
+	count = -1;
 }
 void Start::display( ){
 	std::cout << "Start called" << std::endl;
@@ -243,6 +257,7 @@ int Start::get_count( ){
 
 void Start::perform_update(){
 	std::cout << "Updating the count" << std::endl;
+	count = Symbol_Table::num_var_scope1;
 }
 
 //End
@@ -255,6 +270,7 @@ std::cout << "End called" << std::endl;
 }
 
 void End::add( ){
+	Statement_Buffer::update_count(scope);
 }
 
 std::string End::get_instruction( ){
@@ -269,6 +285,7 @@ void End::perform_update(){
 //Exit
 Exit::Exit( ) {
 	int expected = 0;		//JM
+	count = -1;
 }
 
 void Exit::display( ) {
@@ -299,6 +316,7 @@ Jump::Jump( ) {
 	expected = 1;
 	data_type1 = "s";
 	need_update = 1;
+	count = -1;
 }
 
 void Jump::display( ) {
@@ -323,6 +341,8 @@ int Jump::get_count( ){
 
 void Jump::perform_update(){
 	std::cout << "Updating the count" << std::endl;
+	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
+	count = Symbol_Table::find_location(var1, scope);
 }
 
 //Jumpzero
@@ -330,6 +350,7 @@ Jumpzero::Jumpzero( ) {
 	expected = 1;
 	data_type1 = "s";
 	need_update = 1;
+	count = -1;
 }
 
 void Jumpzero::display( ) {
@@ -354,6 +375,8 @@ int Jumpzero::get_count( ){
 
 void Jumpzero::perform_update(){
 	std::cout << "Updating the count" << std::endl;
+	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
+	count = Symbol_Table::find_location(var1, scope);
 }
 
 //Jumpnzero
@@ -361,6 +384,7 @@ Jumpnzero::Jumpnzero( ) {
 	expected = 1;
 	data_type1 = "s";
 	need_update = 1;
+	count = -1;
 }
 
 void Jumpnzero::display( ) {
@@ -385,6 +409,8 @@ int Jumpnzero::get_count( ){
 
 void Jumpnzero::perform_update(){
 	std::cout << "Updating the count" << std::endl;
+	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
+	count = Symbol_Table::find_location(var1, scope);
 }
 
 //Gosub
@@ -392,6 +418,7 @@ Gosub::Gosub( ) {
 	expected = 1;
 	data_type1 = "s";
 	need_update = 1;
+	count = -1;
 }
 
 void Gosub::display( ) {
@@ -422,6 +449,7 @@ void Gosub::perform_update(){
 Return::Return( ) {
 	expected = 0;		
 	change_scope = -1;
+	count = -1;
 }
 
 void Return::display( ) {
@@ -452,6 +480,7 @@ void Return::perform_update(){
 Pushscal::Pushscal( ) {
 	expected = 1;
 	data_type1 = "s";
+	count = -1;
 }
 
 void Pushscal::display( ) {
@@ -461,7 +490,7 @@ void Pushscal::display( ) {
 void Pushscal::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
-	count = Symbol_Table::find_location(var1);
+	count = Symbol_Table::find_location(var1, scope);
 	Statement_Buffer::add_statement(this);
 }
 
@@ -482,6 +511,7 @@ void Pushscal::perform_update(){
 Pusharr::Pusharr( ) {
 	expected = 1;
 	data_type1 = "s";
+	count = -1;
 }
 
 void Pusharr::display( ) {
@@ -511,6 +541,7 @@ void Pusharr::perform_update(){
 Pushi::Pushi( ) {
 	expected = 1;
 	data_type1 = "i";
+	count = -1;
 }
 
 void Pushi::display( ) {
@@ -569,6 +600,7 @@ void Pop::perform_update(){
 Popscal::Popscal( ) {
 	expected = 1;
 	data_type1 = "s";
+	count = -1;
 }
 
 void Popscal::display( ) {
@@ -578,7 +610,8 @@ void Popscal::display( ) {
 void Popscal::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
-	count = Symbol_Table::find_location(var1);
+	std::cout << "Prior Count" << count << "\n";
+	count = Symbol_Table::find_location(var1, scope);
 	Statement_Buffer::add_statement(this);
 }
 
@@ -599,6 +632,7 @@ void Popscal::perform_update(){
 Poparr::Poparr( ) {
 	expected = 1;
 	data_type1 = "s";
+	count = -1;
 }
 
 void Poparr::display( ) {
@@ -608,7 +642,7 @@ void Poparr::display( ) {
 void Poparr::add( ){
 	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
-	count = Symbol_Table::find_location(var1);
+	count = Symbol_Table::find_location(var1, scope);
 	Statement_Buffer::add_statement(this);
 }
 
@@ -628,6 +662,7 @@ void Poparr::perform_update(){
 //Dup
 Dup::Dup( ) {
 	expected = 0; 	//JM
+	count = -1;
 }
 
 void Dup::display( ) {
@@ -656,6 +691,7 @@ void Dup::perform_update(){
 //Swap
 Swap::Swap( ) {
 	expected = 0; 	//JM
+	count = -1;
 }
 
 void Swap::display( ) {
@@ -684,6 +720,7 @@ void Swap::perform_update(){
 //Add
 Add::Add( ) {
 	expected = 0; 	//JM
+	count = -1;
 }
 
 void Add::display( ) {
@@ -712,6 +749,7 @@ void Add::perform_update(){
 //Negate
 Negate::Negate( ) {
 	expected = 0; 	//JM
+	count = -1;
 }
 
 void Negate::display( ) {
@@ -740,6 +778,7 @@ void Negate::perform_update(){
 //Mul
 Mul::Mul( ) {
 	expected = 0; 	//JM
+	count = -1;
 }
 
 void Mul::display( ) {
@@ -768,6 +807,7 @@ void Mul::perform_update(){
 //Div
 Div::Div( ) {
 	expected = 0; 	//JM
+	count = -1;
 }
 
 void Div::display( ) {
@@ -796,6 +836,7 @@ void Div::perform_update(){
 //Printtos
 Printtos::Printtos( ) {
 	expected = 0;
+	count = -1;
 }
 
 void Printtos::display( ) {
@@ -816,6 +857,7 @@ std::string Printtos::get_instruction( ){
 int Printtos::get_count( ){
 	//std::cout << "Retrieving Count" << std::endl;
 	return count;
+	count = -1;
 }
 
 void Printtos::perform_update(){
@@ -825,6 +867,7 @@ void Printtos::perform_update(){
 Prints::Prints( ) {
 	expected = 1;
 	data_type1 = "b"; 
+	count = -1;
 }
 
 void Prints::display( ) {

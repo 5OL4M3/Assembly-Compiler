@@ -29,14 +29,13 @@ void Symbol_Table::add_symbol(Command * item){
     else{
         this_size = item->data_size;
     }
-    
-    Table_Entry * dummy = new Table_Entry(item->var1, Statement_Buffer::index + item->add_index, this_size);
+    Table_Entry * dummy = new Table_Entry(item->var1, Statement_Buffer::index + item->add_index, this_size, item->scope);
     symbol_vector.push_back(dummy); 
 }
 
-int Symbol_Table::find_location(std::string key){
+int Symbol_Table::find_location(std::string key, int scope){
     for (int i = symbol_vector.size() - 1; i >= 0; i--){
-        if(symbol_vector.at(i)->get_name() == key){
+        if(symbol_vector.at(i)->get_name() == key && symbol_vector.at(i)->get_scope() == scope){
             return symbol_vector.at(i)->get_index();
         }
     }

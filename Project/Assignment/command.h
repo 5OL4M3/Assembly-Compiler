@@ -12,6 +12,7 @@
 class Command{
 public:
     Command();
+    Command(const Command&);
     std::string instruction;
     std::string var1;//User argument 1
     std::string var2; //User argument 2
@@ -82,7 +83,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private: 
-    int count = -1;
     std::string instruction = "OP_ENTER_SUBROUTINE";
 };
 
@@ -96,7 +96,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_START_PROGRAM";
 };
 
@@ -122,7 +121,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_EXIT";
 };
 
@@ -137,7 +135,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_JUMP";
 };
 
@@ -152,7 +149,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_JUMPZERO";
 };
 
@@ -167,7 +163,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_JUMPNZERO";
 };
 
@@ -182,7 +177,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_GOSUB";
 };
 
@@ -196,7 +190,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_RETURN";
 };
 
@@ -211,7 +204,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_PUSHSCALAR";
 };
 
@@ -226,7 +218,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_PUSHARRAY";
 };
 
@@ -241,7 +232,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_PUSHI";
 };
 
@@ -256,7 +246,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_POP";
 };
 
@@ -271,7 +260,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_POPSCAL";
 };
 
@@ -286,7 +274,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_POPARRAY";
 };
 
@@ -301,7 +288,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_DUP";
 };
 
@@ -316,7 +302,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_SWAP";
 };
 
@@ -331,7 +316,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_ADD";
 };
 
@@ -346,7 +330,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_NEGATE";
 };
 
@@ -361,7 +344,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_MUL";
 };
 
@@ -376,7 +358,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_DIV";
 };
 
@@ -391,7 +372,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_PRINTTOS";
 };
 
@@ -405,7 +385,6 @@ public:
     std::string get_instruction( );
     int get_count( );
 private:
-    int count = -1;
     std::string instruction = "OP_PRINTS";
 };
 

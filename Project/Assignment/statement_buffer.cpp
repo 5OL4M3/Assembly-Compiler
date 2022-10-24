@@ -21,7 +21,7 @@ Statement_Buffer *Statement_Buffer::create_statement_buffer() {
 
 void Statement_Buffer::add_statement(Command * item){
     item->instruction = item->get_instruction();
-    item->count = item->get_count(); 
+    item->count = item->count; 
     statement_vector.push_back(item);
     index += 1;
 }
@@ -35,7 +35,7 @@ void Statement_Buffer::printContent(){
 }
 
 void Statement_Buffer::update_count(int scope){
-    std::cout << "updating count:\n";
+    std::cout << "updating count[" << scope <<"]:\n";
     //If in subroutine 
     if (scope == 2){
         int i = statement_vector.size() - 1;
@@ -43,12 +43,24 @@ void Statement_Buffer::update_count(int scope){
             std::cout << "Looking at " << statement_vector.at(i)->instruction << "\n";
             if (statement_vector.at(i)->need_update){
                 statement_vector.at(i)->perform_update();
+                std::cout <<" TESTING: " << statement_vector.at(i)->scope << "\n";
             }
             i -= 1;
         }
         std::cout << "Looking at " << statement_vector.at(i)->instruction << "\n";
         if (statement_vector.at(i)->need_update){
             statement_vector.at(i)->perform_update();
-         }
+        }
+    }
+    if (scope == 1) {
+        for (int i = statement_vector.size() - 1; i >= 0; i--){
+            if (statement_vector.at(i)->scope == scope){
+                std::cout << i << "Looking at " << statement_vector.at(i)->instruction << "\n";
+                if (statement_vector.at(i)->need_update){
+                    statement_vector.at(i)->perform_update();
+                    std::cout <<" TESTING: " << statement_vector.at(i)->scope << "\n";
+                }
+            }
+        }
     }
 }
