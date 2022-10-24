@@ -13,6 +13,7 @@ class Command{
 public:
     Command();
     Command(const Command&);
+    ~Command();
     std::string instruction;
     std::string var1;//User argument 1
     std::string var2; //User argument 2
@@ -26,11 +27,11 @@ public:
     bool check;		//if we should check for additional arguments for eg. 6 in pushi 6
 	int expected = 0;	//the number of additional arguments we should expect
     int add_index = 0; //this is for commands that add to symbol table with index of next statement
-	virtual void display() = 0;
-    virtual void add() = 0;
-    virtual std::string get_instruction() = 0;
-    virtual void perform_update() = 0; //updates the count 
-    virtual int get_count() = 0;
+	virtual void display();
+    virtual void add();
+    virtual std::string get_instruction();
+    virtual void perform_update(); //updates the count 
+    virtual int get_count();
 	void assign_args(std::string);
 private:
     std::string syntax;

@@ -18,6 +18,7 @@ public:
     static String_Buffer * create_string_buffer(); 
     static void add_statement(Command *);
     static void printContent();
+    static int find_location(std::string);
 };
 //Determines what command is being declared 
 

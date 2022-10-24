@@ -11,8 +11,12 @@
 //Command
 
 Command::Command(){}
-Command::Command(const Command& p1){}
+Command::Command(const Command& orig){
+	std::cout << "Testing the Copy Command\n";
+	std::cout << orig.need_update << "\n";
+}
 
+Command::~Command(){}
 //check the number of arguments and argument values in this function
 //enter the values into the symbol table
 void Command::assign_args(std::string _myline) {
@@ -93,6 +97,12 @@ void Command::assign_args(std::string _myline) {
 		}
 	}
 }
+
+void Command::display(){}
+void Command::add(){}
+std::string Command::get_instruction(){}
+void Command::perform_update(){} //updates the count 
+int Command::get_count(){}
 
 //Declscal 
 Declscal::Declscal( ) {
@@ -443,6 +453,8 @@ int Gosub::get_count( ){
 
 void Gosub::perform_update(){
 	std::cout << "Updating the count" << std::endl;
+	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
+	count = Symbol_Table::find_location(var1, scope);
 }
 
 //Return
@@ -868,6 +880,7 @@ Prints::Prints( ) {
 	expected = 1;
 	data_type1 = "b"; 
 	count = -1;
+	need_update = 1;
 }
 
 void Prints::display( ) {
@@ -893,5 +906,7 @@ int Prints::get_count( ){
 }
 
 void Prints::perform_update(){
+	String_Buffer * string_vector = String_Buffer::create_string_buffer();
+	count = String_Buffer::find_location(var1);
 }
 

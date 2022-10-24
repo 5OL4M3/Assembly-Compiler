@@ -19,6 +19,7 @@ public:
     static int find_location(std::string, int);
     static int num_var_scope1;
     static int num_var_scope2;
+    static int scope2_index;
     static Symbol_Table * create_symbol_table();
     static void add_symbol(Command *);
     static void printContent();

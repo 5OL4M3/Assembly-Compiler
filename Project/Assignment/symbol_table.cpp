@@ -7,6 +7,7 @@
 //Symbol Table
 int Symbol_Table::num_var_scope1 = 0;
 int Symbol_Table::num_var_scope2 = 0;
+int Symbol_Table::scope2_index = 0;
 
 Symbol_Table*  Symbol_Table::instance = nullptr;
 
@@ -22,12 +23,22 @@ Symbol_Table * Symbol_Table::create_symbol_table() {
 }
 
 void Symbol_Table::add_symbol(Command * item){
+    //Check size of the item
     int this_size;
     if (item->expected == 2){
         this_size = stoi(item->var2);
     }
     else{
         this_size = item->data_size;
+    }
+    
+    
+    //if scope is 2
+    if (item->scope == 2){
+        scope2_index += 1;
+        Table_Entry * dummy = new Table_Entry(item->var1, scope2_index, this_size, item->scope);
+        symbol_vector.push_back(dummy); 
+        return;
     }
     Table_Entry * dummy = new Table_Entry(item->var1, Statement_Buffer::index + item->add_index, this_size, item->scope);
     symbol_vector.push_back(dummy); 
