@@ -37,6 +37,8 @@ private:
     std::string syntax;
 };
 
+Command* getCommand(int ind);
+
 //-----Commands:
 //Declscal
 class Declscal:public Command {

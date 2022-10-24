@@ -104,6 +104,115 @@ std::string Command::get_instruction(){}
 void Command::perform_update(){} //updates the count 
 int Command::get_count(){}
 
+
+Command* getCommand(int ind) {
+    Command* curr_command;
+    if(ind == 0){
+        curr_command =new Declscal();
+        return curr_command;
+    }
+    else if(ind == 1) {
+        curr_command =new Declarr();
+        return curr_command;
+    }
+    else if(ind == 2) {
+        curr_command =new Label();
+        return curr_command;
+    }
+    else if(ind == 3) {
+        curr_command =new Gosublabel();
+        return curr_command;
+    }
+    else if(ind == 4) {
+        curr_command =new Start();
+        return curr_command;
+    }
+    else if(ind == 5) {
+        curr_command =new End();
+        return curr_command;
+    }
+    else if(ind == 6) {
+        curr_command =new Exit();
+        return curr_command;
+    }
+    else if(ind == 7) {
+        curr_command =new Jump();
+        return curr_command;
+    }
+    else if(ind == 8) {
+        curr_command =new Jumpzero();
+        return curr_command;
+    }
+    else if(ind == 9) {
+        curr_command =new Jumpnzero();
+        return curr_command;
+    }
+    else if(ind == 10) {
+        curr_command =new Gosub();
+        return curr_command;
+    }
+    else if(ind == 11) {
+        curr_command =new Return();
+        return curr_command;
+    }
+    else if(ind == 12) {
+        curr_command =new Pushscal();
+        return curr_command;
+    }
+    else if(ind == 13) {
+        curr_command =new Pusharr();
+        return curr_command;
+    }
+    else if(ind == 14) {
+        curr_command =new Pushi();
+        return curr_command;
+    }
+    else if(ind == 15) {
+        curr_command =new Pop();
+        return curr_command;
+    }
+    else if(ind == 16) {
+        curr_command =new Popscal();
+        return curr_command;
+    }
+    else if(ind == 17) {
+        curr_command =new Poparr();
+        return curr_command;
+    }
+    else if(ind == 18) {
+        curr_command =new Dup();
+        return curr_command;
+    }
+    else if(ind == 19) {
+        curr_command =new Swap();
+        return curr_command;
+    }
+    else if(ind == 20) {
+        curr_command =new Add();
+        return curr_command;
+    }
+    else if(ind == 21) {
+        curr_command =new Negate();
+        return curr_command;
+    }
+    else if(ind == 22) {
+        curr_command =new Mul();
+        return curr_command;
+    }
+    else if(ind == 23) {
+        curr_command =new Div();
+        return curr_command;
+    }
+    else if(ind == 24) {
+        curr_command =new Printtos();
+        return curr_command;
+    }
+    else if(ind == 25) {
+        curr_command =new Prints();
+        return curr_command;
+    }
+}
+
 //Declscal 
 Declscal::Declscal( ) {
 	expected = 1;

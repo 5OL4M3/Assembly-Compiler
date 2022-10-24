@@ -12,5 +12,7 @@
                 2) reduces spaces between words to one
 */
 std::string cleanString(std::string);
+int lookString(std::string, std::string* array);
+
 
 #endif

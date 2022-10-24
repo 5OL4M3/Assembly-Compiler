@@ -29,9 +29,13 @@ std::string cleanString(std::string str){
     return str;
 }
 
-
-
-
-
-
-
+int lookString(std::string key, std::string* array) {
+    key = key.substr(0, key.find(" "));
+    for(int i = 0; i < 26; i++) {
+        if (key == array[i]){
+            return i;
+        }
+    }
+    std::cout << "Invalid Syntax" << std::endl;
+    exit(0);
+}

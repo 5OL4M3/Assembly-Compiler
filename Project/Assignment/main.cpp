@@ -52,7 +52,7 @@ int main(int argc, char** argv){
             std::cout << "No start or start has an argument\n";
             exit(0);
         }
-		Command* curr_command = command_map->lookUp(myline);
+        Command* curr_command = getCommand(lookString(myline, command_list));
         curr_command->scope = scope;
         curr_command->display();
         curr_command->add();
@@ -62,7 +62,7 @@ int main(int argc, char** argv){
             std::getline(myfile, myline);
             myline = cleanString(myline);
 			//shift the substr(0, myline.find(" "))) into the class
-			Command* curr_command = command_map->lookUp(myline);
+			Command* curr_command = getCommand(lookString(myline, command_list));
             std::cout << "\n--Scope: " << scope <<"\n";	
             curr_command->scope = scope;
 			curr_command->display();
