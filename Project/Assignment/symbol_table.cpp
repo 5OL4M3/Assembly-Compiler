@@ -91,7 +91,7 @@ int Symbol_Table::find_location(std::string key, int scope, int is_arr){
     if (is_arr){
         for (int i = 0; i < symbol_vector.size(); i++){
             if(symbol_vector.at(i)->get_name() == key && symbol_vector.at(i)->get_scope() == scope){
-                std::cout << symbol_vector.at(i)->get_index();
+                //std::cout << symbol_vector.at(i)->get_index();
                 return symbol_vector.at(i)->get_index();
             }
         }

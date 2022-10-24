@@ -12,8 +12,6 @@
 
 Command::Command(){}
 Command::Command(const Command& orig){
-	std::cout << "Testing the Copy Command\n";
-	std::cout << orig.need_update << "\n";
 }
 
 Command::~Command(){}
@@ -66,14 +64,14 @@ void Command::assign_args(std::string _myline) {
 	else{
 		for(int i = 0; i < var1.length(); i++){
 			if (isalpha(var1[i])){
-				std::cout << "Variables can't start with an int and int can't start with an char\n";
+				std::cout << "Error! Variables can't start with an int and int can't start with an char\n";
 				exit(0);
 			}
 		}
 		var1_type = "i";
 	}
 	if (var1_type != data_type1){
-		std::cout << "First argument is of incorrect type\n";
+		std::cout << "Error! First argument is of incorrect type\n";
 		exit(0);
 	}
 
@@ -85,14 +83,14 @@ void Command::assign_args(std::string _myline) {
 		else{
 			for(int i = 0; i < var2.length(); i++){
 				if (isalpha(var2[i])){
-					std::cout << "Variables can't start with an int and int can't start with an char\n";
+					std::cout << "Error! Variables can't start with an int and int can't start with an char\n";
 					exit(0);
 				}
 			}
 			var2_type = "i";
 		}
 		if (var2_type != data_type2){
-			std::cout << "Second argument is of incorrect type\n";
+			std::cout << "Error! Second argument is of incorrect type\n";
 			exit(0);
 		}
 	}
@@ -221,16 +219,14 @@ Declscal::Declscal( ) {
 }
 
 void Declscal::display( ) {
-	std::cout << "Declscal called" << std::endl;
+	//std::cout << "Declscal called" << std::endl;
 }
 
 void Declscal::add( ){
-	std::cout <<Symbol_Table::find_location(var1, scope, 0) << "--------\n";
 	if(Symbol_Table::find_location(var1, scope, 0) != -1) {
 		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
 		exit(0);
 	}
-	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
 	if (scope == 1){
         Symbol_Table::num_var_scope1 +=1;
@@ -257,15 +253,13 @@ Declarr::Declarr( ) {
 	data_type2 = "i";
 }
 
-void Declarr::display( ) {
-	std::cout << "Declarr called" << std::endl;}
+void Declarr::display( ) {}
 
 void Declarr::add( ){
 	if(Symbol_Table::find_location(var1, scope, 1) != -1) {
 		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
 		exit(0);
 	}
-	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
 	Symbol_Table::add_symbol(this, 2); 
 }
@@ -289,7 +283,6 @@ Label::Label( ) {
 }
 
 void Label::display( ) {
-	std::cout << "Label called" << std::endl;
 }
 
 void Label::add( ){
@@ -297,7 +290,6 @@ void Label::add( ){
 		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
 		exit(0);
 	}
-	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
 	Symbol_Table::add_symbol(this, 0); 
 }
@@ -324,14 +316,11 @@ Gosublabel::Gosublabel( ) {
 }
 
 void Gosublabel::display( ) {
-std::cout << "Gosublabel called" << std::endl;
 }
 
 void Gosublabel::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
-	std::cout << "Adding to Symbol Table" << std::endl;
 	Symbol_Table* symbol_table = Symbol_Table::create_symbol_table();
 	Symbol_Table::add_symbol(this, 3);
 }
@@ -347,8 +336,6 @@ int Gosublabel::get_count( ){
 }
 
 void Gosublabel::perform_update(){
-	std::cout << scope << "\n";
-	std::cout << "Updating the count" << std::endl;
 	//this could be an issue later on; we are assuming that there are no nested subroutines
 	count = Symbol_Table::num_var_scope2;
 
@@ -361,26 +348,21 @@ Start::Start ( ){
 	count = -1;
 }
 void Start::display( ){
-	std::cout << "Start called" << std::endl;
 }
 void Start::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
 
 std::string Start::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Start::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
 	return count;
 }
 
 void Start::perform_update(){
-	std::cout << "Updating the count" << std::endl;
 	count = Symbol_Table::num_var_scope1;
 }
 
@@ -390,7 +372,6 @@ End::End( ) {
 }
 
 void End::display( ) {
-std::cout << "End called" << std::endl;
 }
 
 void End::add( ){
@@ -413,11 +394,9 @@ Exit::Exit( ) {
 }
 
 void Exit::display( ) {
-	std::cout << "Exit called" << std::endl;
 }
 
 void Exit::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -444,11 +423,9 @@ Jump::Jump( ) {
 }
 
 void Jump::display( ) {
-	std::cout << "Jump called" << std::endl;
 }
 
 void Jump::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -464,7 +441,6 @@ int Jump::get_count( ){
 }
 
 void Jump::perform_update(){
-	std::cout << "Updating the count" << std::endl;
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
 	count = Symbol_Table::find_location(var1, scope, 0);
 }
@@ -478,11 +454,9 @@ Jumpzero::Jumpzero( ) {
 }
 
 void Jumpzero::display( ) {
-	std::cout << "Jumpzero called" << std::endl;
 }
 
 void Jumpzero::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -498,7 +472,6 @@ int Jumpzero::get_count( ){
 }
 
 void Jumpzero::perform_update(){
-	std::cout << "Updating the count" << std::endl;
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
 	count = Symbol_Table::find_location(var1, scope, 0);
 }
@@ -512,11 +485,9 @@ Jumpnzero::Jumpnzero( ) {
 }
 
 void Jumpnzero::display( ) {
-	std::cout << "Jumpnzero called" << std::endl;
 }
 
 void Jumpnzero::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -546,11 +517,9 @@ Gosub::Gosub( ) {
 }
 
 void Gosub::display( ) {
-	std::cout << "Gosub called" << std::endl;
 }
 
 void Gosub::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -566,7 +535,6 @@ int Gosub::get_count( ){
 }
 
 void Gosub::perform_update(){
-	std::cout << "Updating the count" << std::endl;
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
 	count = Symbol_Table::find_location(var1, scope, 0);
 }
@@ -579,11 +547,9 @@ Return::Return( ) {
 }
 
 void Return::display( ) {
-	std::cout << "Return called" << std::endl;
 }
 
 void Return::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 	Statement_Buffer::update_count(scope);
@@ -610,23 +576,19 @@ Pushscal::Pushscal( ) {
 }
 
 void Pushscal::display( ) {
-	std::cout << "Pushscal called" << std::endl;
 }
 
 void Pushscal::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	count = Symbol_Table::find_location(var1, scope, 0);
 	Statement_Buffer::add_statement(this);
 }
 
 std::string Pushscal::get_instruction( ){
-	std::cout << "Retrieving Instruction" << std::endl;
 	return instruction;
 }
 
 int Pushscal::get_count( ){
-	std::cout << "Retrieving Count" << std::endl;
 	return count;
 }
 
@@ -641,11 +603,9 @@ Pusharr::Pusharr( ) {
 }
 
 void Pusharr::display( ) {
-	std::cout << "Pusharr called" << std::endl;
 }
 
 void Pusharr::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	count = Symbol_Table::find_location(var1, scope, 1);
 	Statement_Buffer::add_statement(this);
@@ -672,12 +632,10 @@ Pushi::Pushi( ) {
 }
 
 void Pushi::display( ) {
-	std::cout << "Pushi called" << std::endl;
 }
 
 void Pushi::add( ){
 	count = stoi(var1);		//set count to corresponding integer value
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -701,11 +659,9 @@ Pop::Pop( ) {
 }
 
 void Pop::display( ) {
-	std::cout << "Pop called" << std::endl;
 }
 
 void Pop::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -731,15 +687,12 @@ Popscal::Popscal( ) {
 }
 
 void Popscal::display( ) {
-	std::cout << "Popscal called" << std::endl;
 }
 
 void Popscal::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	
 	count = Symbol_Table::find_location(var1, scope, 0);
-	std::cout << "--After Count" << scope << "\n";
 	Statement_Buffer::add_statement(this);
 }
 
@@ -764,11 +717,9 @@ Poparr::Poparr( ) {
 }
 
 void Poparr::display( ) {
-	std::cout << "Poparr called" << std::endl;
 }
 
 void Poparr::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	count = Symbol_Table::find_location(var1, scope, 1);
 	Statement_Buffer::add_statement(this);
@@ -794,11 +745,9 @@ Dup::Dup( ) {
 }
 
 void Dup::display( ) {
-	std::cout << "Dup called" << std::endl;
 }
 
 void Dup::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -823,11 +772,9 @@ Swap::Swap( ) {
 }
 
 void Swap::display( ) {
-	std::cout << "Swap called" << std::endl;
 }
 
 void Swap::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -852,11 +799,9 @@ Add::Add( ) {
 }
 
 void Add::display( ) {
-	std::cout << "Add called" << std::endl;
 }
 
 void Add::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -881,11 +826,9 @@ Negate::Negate( ) {
 }
 
 void Negate::display( ) {
-	std::cout << "Negate called" << std::endl;
 }
 
 void Negate::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -910,11 +853,9 @@ Mul::Mul( ) {
 }
 
 void Mul::display( ) {
-	std::cout << "Mul called" << std::endl;
 }
 
 void Mul::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -939,11 +880,9 @@ Div::Div( ) {
 }
 
 void Div::display( ) {
-	std::cout << "Div called" << std::endl;
 }
 
 void Div::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -968,11 +907,9 @@ Printtos::Printtos( ) {
 }
 
 void Printtos::display( ) {
-	std::cout << "Printtos called" << std::endl;
 }
 
 void Printtos::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 }
@@ -1000,11 +937,9 @@ Prints::Prints( ) {
 }
 
 void Prints::display( ) {
-	std::cout << "Prints called" << std::endl;
 }
 
 void Prints::add( ){
-	std::cout << "Adding to Instruction Buffer" << std::endl;
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
 	String_Buffer * string_buffer = String_Buffer::create_string_buffer();

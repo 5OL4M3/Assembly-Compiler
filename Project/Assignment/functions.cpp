@@ -36,6 +36,6 @@ int lookString(std::string key, std::string* array) {
             return i;
         }
     }
-    std::cout << "Invalid Syntax?" << std::endl;
+    std::cout << "Error! Invalid Syntax" << std::endl;
     exit(0);
 }

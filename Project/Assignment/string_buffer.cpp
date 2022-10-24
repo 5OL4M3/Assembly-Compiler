@@ -21,14 +21,14 @@ void String_Buffer::add_statement(Command * item) {
 }
 
 void String_Buffer::printContent() {
-    std::cout << "String buffer: \n";
+    std::cout << "\nString buffer: \n";
     for(int i = 0; i < string_vector.size(); i++)   {
         std::cout << string_vector.at(i) << "\n";
     }
 }
 
 int String_Buffer::find_location(std::string key){
-    std::cout << "Finding " << key << "\n";
+    //std::cout << "Finding " << key << "\n";
     for (int i = string_vector.size() - 1; i >= 0; i--){
         if(string_vector.at(i) == key){
             return i;

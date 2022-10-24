@@ -57,14 +57,14 @@ int main(int argc, char** argv){
         curr_command->scope = scope;
         curr_command->display();
         curr_command->add();
-        std::cout << "Index: " << Statement_Buffer::index << "\n";
+        //std::cout << "Index: " << Statement_Buffer::index << "\n";
         //Check rest of the file
         while (myfile.good()){
             std::getline(myfile, myline);
             myline = cleanString(myline);
 			//shift the substr(0, myline.find(" "))) into the class
 			Command* curr_command = getCommand(lookString(myline, command_list));
-            std::cout << "\n--Scope: " << scope <<"\n";	
+            //std::cout << "\n--Scope: " << scope <<"\n";	
             curr_command->scope = scope;
 			curr_command->display();
             curr_command -> assign_args(myline);

@@ -35,19 +35,19 @@ void Statement_Buffer::printContent(){
 }
 
 void Statement_Buffer::update_count(int scope){
-    std::cout << "updating count[" << scope <<"]:\n";
+    //std::cout << "updating count[" << scope <<"]:\n";
     //If in subroutine 
     if (scope == 2){
         int i = statement_vector.size() - 1;
         while (statement_vector.at(i)->scope == scope){
-            std::cout << "Looking at " << statement_vector.at(i)->instruction << "\n";
+           // std::cout << "Looking at " << statement_vector.at(i)->instruction << "\n";
             if (statement_vector.at(i)->need_update){
                 statement_vector.at(i)->perform_update();
-                std::cout <<" TESTING: " << statement_vector.at(i)->scope << "\n";
+                //std::cout <<" TESTING: " << statement_vector.at(i)->scope << "\n";
             }
             i -= 1;
         }
-        std::cout << "Looking at " << statement_vector.at(i)->instruction << "\n";
+        //std::cout << "Looking at " << statement_vector.at(i)->instruction << "\n";
         if (statement_vector.at(i)->need_update){
             statement_vector.at(i)->perform_update();
         }
@@ -55,10 +55,10 @@ void Statement_Buffer::update_count(int scope){
     if (scope == 1) {
         for (int i = statement_vector.size() - 1; i >= 0; i--){
             if (statement_vector.at(i)->scope == scope){
-                std::cout << i << "Looking at " << statement_vector.at(i)->instruction << "\n";
+                //std::cout << i << "Looking at " << statement_vector.at(i)->instruction << "\n";
                 if (statement_vector.at(i)->need_update){
                     statement_vector.at(i)->perform_update();
-                    std::cout <<" TESTING: " << statement_vector.at(i)->scope << "\n";
+                    //std::cout <<" TESTING: " << statement_vector.at(i)->scope << "\n";
                 }
             }
         }
