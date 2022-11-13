@@ -6,6 +6,8 @@ Data_Memory* Data_Memory::instance = nullptr;
 
 Data_Memory::Data_Memory(){}
 
+std::vector<TwoTuple *> Data_Memory::data_memory;
+
 Data_Memory * Data_Memory::create_data_memory() {
     if (instance == NULL){
         instance = new Data_Memory();
