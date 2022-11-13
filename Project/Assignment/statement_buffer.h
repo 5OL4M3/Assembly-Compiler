@@ -17,6 +17,7 @@ public:
     static int index; 
     static void add_statement(Command *);
     static void printContent();
+    static int statement_action(int); 
     static void update_count(int);
 };
 

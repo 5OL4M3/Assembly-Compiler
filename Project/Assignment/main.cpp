@@ -91,9 +91,13 @@ int main(int argc, char** argv){
     statement_buffer->printContent();
     
     //Virtual Machine
+    std::cout << "\nActions of the VM: \n\n";
     int pc = 0;
     
     static std::vector<int> runtime_stack;
     Data_Memory * data_memory = Data_Memory::create_data_memory();
-
+    while (pc < sizeof(statement_buffer)){
+        pc = statement_buffer->statement_action(pc);
+        std::cout << "\n";
+    }
 }

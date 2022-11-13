@@ -63,3 +63,9 @@ void Statement_Buffer::update_count(int scope){
         }
     }
 }
+
+int Statement_Buffer::statement_action(int pc){
+    std::cout << "PC is at: "<< pc << "\n";
+    std::cout << statement_vector.at(pc)->instruction << "\n";
+    return pc + 1;
+}
