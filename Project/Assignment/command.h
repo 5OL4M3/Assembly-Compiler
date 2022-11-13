@@ -31,6 +31,7 @@ public:
     virtual void perform_update(); //updates the count 
     virtual int get_count();
 	void assign_args(std::string);
+    virtual void vm_action(std::vector<int>&);
 private:
     std::string syntax;
 };
@@ -47,6 +48,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 };
 
 
@@ -59,6 +61,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 };
 
 
@@ -71,6 +74,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 };
 
 
@@ -83,6 +87,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 private: 
     std::string instruction = "OP_ENTER_SUBROUTINE";
 };
@@ -96,6 +101,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 private:
     std::string instruction = "OP_START_PROGRAM";
 };
@@ -109,6 +115,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 };
 
 
@@ -121,6 +128,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 private:
     std::string instruction = "OP_EXIT";
 };
@@ -135,6 +143,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 private:
     std::string instruction = "OP_JUMP";
 };
@@ -149,6 +158,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_JUMPZERO";
 };
@@ -163,6 +173,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_JUMPNZERO";
 };
@@ -177,6 +188,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_GOSUB";
 };
@@ -190,6 +202,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 private:
     std::string instruction = "OP_RETURN";
 };
@@ -204,6 +217,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_PUSHSCALAR";
 };
@@ -218,6 +232,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_PUSHARRAY";
 };
@@ -232,6 +247,8 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>&);
+    
 private:
     std::string instruction = "OP_PUSHI";
 };
@@ -246,6 +263,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_POP";
 };
@@ -260,6 +278,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_POPSCAL";
 };
@@ -274,6 +293,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_POPARRAY";
 };
@@ -288,6 +308,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_DUP";
 };
@@ -302,6 +323,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_SWAP";
 };
@@ -316,6 +338,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_ADD";
 };
@@ -330,6 +353,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_NEGATE";
 };
@@ -344,6 +368,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_MUL";
 };
@@ -358,6 +383,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_DIV";
 };
@@ -372,6 +398,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action(std::vector<int>& vec);
 private:
     std::string instruction = "OP_PRINTTOS";
 };
@@ -385,6 +412,7 @@ public:
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual void vm_action();
 private:
     std::string instruction = "OP_PRINTS";
 };

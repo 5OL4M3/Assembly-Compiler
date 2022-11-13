@@ -1,6 +1,7 @@
 #include "statement_buffer.h"
 #include <string>
 #include <iostream>
+#include <vector>
 
 //Statement Buffer
 Statement_Buffer* Statement_Buffer::instance = nullptr;
@@ -62,4 +63,11 @@ void Statement_Buffer::update_count(int scope){
             }
         }
     }
+}
+
+int Statement_Buffer::statement_action(int pc, std::vector<int>& vec){
+    std::cout << "PC is at: "<< pc << "\n";
+    std::cout << statement_vector.at(pc)->instruction << "\n";
+    statement_vector.at(pc)->vm_action(vec);
+    return pc + 1;
 }

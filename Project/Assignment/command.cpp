@@ -209,6 +209,10 @@ Command* getCommand(int ind) {
     }
 }
 
+void Command::vm_action(std::vector<int>& vec) {
+	std::cout << "Command VM" << std::endl;
+}
+
 //Declscal 
 Declscal::Declscal( ) {
 	expected = 1;
@@ -244,6 +248,10 @@ int Declscal::get_count( ){
 void Declscal::perform_update(){
 }
 
+void Declscal::vm_action() {
+	std::cout << "Declscal VM" << std::endl;
+}
+
 //Declarr
 Declarr::Declarr( ) {
 	expected = 2;
@@ -271,6 +279,10 @@ int Declarr::get_count( ){
 }
 
 void Declarr::perform_update(){
+}
+
+void Declarr::vm_action() {
+	std::cout << "Declarr VM" << std::endl;
 }
 
 //Label
@@ -301,6 +313,10 @@ int Label::get_count( ){
 }
 
 void Label::perform_update(){
+}
+
+void Label::vm_action() {
+	std::cout << "Label VM" << std::endl;
 }
 
 //Gosublabel
@@ -339,6 +355,10 @@ void Gosublabel::perform_update(){
 
 }
 
+void Gosublabel::vm_action() {
+	std::cout << "Gosublabel VM" << std::endl;
+}
+
 //Start
 Start::Start ( ){
 	expected = 0;		
@@ -364,6 +384,10 @@ void Start::perform_update(){
 	count = Symbol_Table::num_var_scope1;
 }
 
+void Start::vm_action() {
+	std::cout << "Start VM" << std::endl;
+}
+
 //End
 End::End( ) {
 	expected = 0;		
@@ -383,6 +407,10 @@ int End::get_count( ){
 }
 
 void End::perform_update(){
+}
+
+void End::vm_action() {
+	std::cout << "End VM" << std::endl;
 }
 
 //Exit
@@ -410,6 +438,10 @@ int Exit::get_count( ){
 }
 
 void Exit::perform_update(){
+}
+
+void Exit::vm_action() {
+	std::cout << "Exit VM" << std::endl;
 }
 
 //Jump
@@ -443,6 +475,10 @@ void Jump::perform_update(){
 	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
+void Jump::vm_action() {
+	std::cout << "Jump VM" << std::endl;
+}
+
 //Jumpzero
 Jumpzero::Jumpzero( ) {
 	expected = 1;
@@ -472,6 +508,10 @@ int Jumpzero::get_count( ){
 void Jumpzero::perform_update(){
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
 	count = Symbol_Table::find_location(var1, scope, 0);
+}
+
+void Jumpzero::vm_action(std::vector<int>& vec) {
+	std::cout << "Jumpzero VM" << std::endl;
 }
 
 //Jumpnzero
@@ -506,6 +546,10 @@ void Jumpnzero::perform_update(){
 	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
+void Jumpnzero::vm_action(std::vector<int>& vec) {
+	std::cout << "Jumpnzero VM" << std::endl;
+}
+
 //Gosub
 Gosub::Gosub( ) {
 	expected = 1;
@@ -537,6 +581,10 @@ void Gosub::perform_update(){
 	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
+void Gosub::vm_action(std::vector<int>& vec) {
+	std::cout << "Gosub VM" << std::endl;
+}
+
 //Return
 Return::Return( ) {
 	expected = 0;		
@@ -566,6 +614,10 @@ int Return::get_count( ){
 void Return::perform_update(){
 }
 
+void Return::vm_action() {
+	std::cout << "Return VM" << std::endl;
+}
+
 //Pushscal
 Pushscal::Pushscal( ) {
 	expected = 1;
@@ -591,6 +643,10 @@ int Pushscal::get_count( ){
 }
 
 void Pushscal::perform_update(){
+}
+
+void Pushscal::vm_action(std::vector<int>& vec) {
+	std::cout << "Pushscal VM" << std::endl;
 }
 
 //Pusharr
@@ -622,6 +678,10 @@ int Pusharr::get_count( ){
 void Pusharr::perform_update(){
 }
 
+void Pusharr::vm_action(std::vector<int>& vec) {
+	std::cout << "Pusharr VM" << std::endl;
+}
+
 //Pushi
 Pushi::Pushi( ) {
 	expected = 1;
@@ -651,6 +711,11 @@ int Pushi::get_count( ){
 void Pushi::perform_update(){
 }
 
+void Pushi::vm_action(std::vector<int>& vec) {
+	vec.push_back(count);
+	std::cout << "Pushi VM" << std::endl;
+}
+
 //Pop
 Pop::Pop( ) {
 	expected = 0; 	//JM
@@ -675,6 +740,10 @@ int Pop::get_count( ){
 }
 
 void Pop::perform_update(){
+}
+
+void Pop::vm_action(std::vector<int>& vec) {
+	std::cout << "Pop VM" << std::endl;
 }
 
 //Popscal
@@ -707,6 +776,10 @@ int Popscal::get_count( ){
 void Popscal::perform_update(){
 }
 
+void Popscal::vm_action(std::vector<int>& vec) {
+	std::cout << "Popscal VM" << std::endl;
+}
+
 //Poparr
 Poparr::Poparr( ) {
 	expected = 1;
@@ -736,6 +809,10 @@ int Poparr::get_count( ){
 void Poparr::perform_update(){
 }
 
+void Poparr::vm_action(std::vector<int>& vec) {
+	std::cout << "Poparr VM" << std::endl;
+}
+
 //Dup
 Dup::Dup( ) {
 	expected = 0; 	//JM
@@ -761,6 +838,10 @@ int Dup::get_count( ){
 }
 
 void Dup::perform_update(){
+}
+
+void Dup::vm_action(std::vector<int>& vec) {
+	std::cout << "Dup VM" << std::endl;
 }
 
 //Swap
@@ -790,6 +871,10 @@ int Swap::get_count( ){
 void Swap::perform_update(){
 }
 
+void Swap::vm_action(std::vector<int>& vec) {
+	std::cout << "Swap VM" << std::endl;
+}
+
 //Add
 Add::Add( ) {
 	expected = 0; 	//JM
@@ -815,6 +900,10 @@ int Add::get_count( ){
 }
 
 void Add::perform_update(){
+}
+
+void Add::vm_action(std::vector<int>& vec) {
+	std::cout << "Add VM" << std::endl;
 }
 
 //Negate
@@ -844,6 +933,10 @@ int Negate::get_count( ){
 void Negate::perform_update(){
 }
 
+void Negate::vm_action(std::vector<int>& vec) {
+	std::cout << "Negate VM" << std::endl;
+}
+
 //Mul
 Mul::Mul( ) {
 	expected = 0; 	//JM
@@ -869,6 +962,10 @@ int Mul::get_count( ){
 }
 
 void Mul::perform_update(){
+}
+
+void Mul::vm_action(std::vector<int>& vec) {
+	std::cout << "Mul VM" << std::endl;
 }
 
 //Div
@@ -898,6 +995,10 @@ int Div::get_count( ){
 void Div::perform_update(){
 }
 
+void Div::vm_action(std::vector<int>& vec) {
+	std::cout << "Div VM" << std::endl;
+}
+
 //Printtos
 Printtos::Printtos( ) {
 	expected = 0;
@@ -924,6 +1025,10 @@ int Printtos::get_count( ){
 }
 
 void Printtos::perform_update(){
+}
+
+void Printtos::vm_action(std::vector<int>& vec) {
+	std::cout << "Printtos VM" << std::endl;
 }
 
 //Prints
@@ -957,5 +1062,9 @@ int Prints::get_count( ){
 void Prints::perform_update(){
 	String_Buffer * string_vector = String_Buffer::create_string_buffer();
 	count = String_Buffer::find_location(var1);
+}
+
+void Prints::vm_action() {
+	std::cout << "Prints VM" << std::endl;
 }
 
