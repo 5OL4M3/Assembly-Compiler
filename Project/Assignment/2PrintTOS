@@ -1,7 +1,9 @@
 start
 declscal A
 pushi 4
+pushi 69
 gosub L1
+jumpzero L3
 jump L2
 gosublabel L1
 declscal A

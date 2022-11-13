@@ -68,6 +68,13 @@ void Statement_Buffer::update_count(int scope){
 int Statement_Buffer::statement_action(int pc, std::vector<int>& vec){
     std::cout << "PC is at: "<< pc << "\n";
     std::cout << statement_vector.at(pc)->instruction << "\n";
-    statement_vector.at(pc)->vm_action(vec);
-    return pc + 1;
+    //return statement_vector.at(pc)->vm_action(vec);
+    int new_pc = statement_vector.at(pc)->vm_action(vec);
+
+     if (new_pc == -1) {
+        return pc + 1;
+    }
+    else {
+        return new_pc;
+    }
 }

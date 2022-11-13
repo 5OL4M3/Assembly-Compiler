@@ -95,12 +95,6 @@ int main(int argc, char** argv){
     int pc = 0;
     
     static std::vector<int> runtime_stack;
-    runtime_stack.push_back(69);
-    runtime_stack.push_back(-69);
-
-    for(int i = 0; i < runtime_stack.size(); i++) {
-        std::cout << runtime_stack[i];
-    }
 
     Data_Memory * data_memory = Data_Memory::create_data_memory();
 
@@ -112,6 +106,4 @@ int main(int argc, char** argv){
     for(int i = 0; i < runtime_stack.size(); i++) {
         std::cout << runtime_stack[i];
     }
-
-
 }
