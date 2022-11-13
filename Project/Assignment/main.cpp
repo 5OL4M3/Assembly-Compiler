@@ -6,6 +6,7 @@
 #include "command.h"
 #include "functions.h"
 #include "string_buffer.h"
+#include "data_memory.h"
 #define COMMAND_AMOUNT 26
 
 
@@ -16,20 +17,7 @@ int main(int argc, char** argv){
     "gosublabel", "start", "end", "exit", "jump", "jumpzero", "jumpnzero", "gosub", "return",
     "pushscal", "pusharr", "pushi", "pop", "popscal", "poparr", "dup", "swap", "add", "negate", "mul",
     "div", "printtos", "prints"};
-    //Array for the Command Objects
-    /*
-    Command * object_list[COMMAND_AMOUNT] = {new Declscal( ), new Declarr( ), new Label( ), new Gosublabel( ), new Start( ),
-    new End( ), new Exit( ), new Jump( ), new Jumpzero( ), new Jumpnzero( ), new Gosub( ), new Return( ), new Pushscal( ),
-    new Pusharr( ), new Pushi( ), new Pop( ), new Popscal( ), new Poparr( ), new Dup( ), new Swap( ), new Add( ), new Negate( ), 
-    new Mul( ), new Div( ), new Printtos( ), new Prints( )};
-    */
-    //Create Map for the commands
-    //Map * command_map = new Map();
-    /*
-    for (int i = 0; i < COMMAND_AMOUNT; i++){
-        command_map->insert(command_list[i], object_list[i]);
-    }
-    */
+
     //Declare the Scope:
     int scope = 1; 
 
@@ -102,4 +90,10 @@ int main(int argc, char** argv){
     string_buffer -> printContent();
     statement_buffer->printContent();
     
+    //Virtual Machine
+    int pc = 0;
+    
+    static std::vector<int> runtime_stack;
+    Data_Memory * data_memory = Data_Memory::create_data_memory();
+
 }
