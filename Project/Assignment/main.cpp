@@ -104,7 +104,7 @@ int main(int argc, char** argv){
 
     Data_Memory * data_memory = Data_Memory::create_data_memory();
 
-    while (pc < sizeof(statement_buffer)){
+    while (pc <= statement_buffer->index){
         pc = statement_buffer->statement_action(pc, runtime_stack);
         std::cout << "\n";
     }
