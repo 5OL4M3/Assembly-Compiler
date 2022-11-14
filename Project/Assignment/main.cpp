@@ -95,15 +95,24 @@ int main(int argc, char** argv){
     int pc = 0;
     
     static std::vector<int> runtime_stack;
+    static std::vector<int> return_stack;
 
     Data_Memory * data_memory = Data_Memory::create_data_memory();
 
     while (pc <= statement_buffer->index){
-        pc = statement_buffer->statement_action(pc, runtime_stack);
-        std::cout << "\n";
+        pc = statement_buffer->statement_action(pc, runtime_stack, return_stack);
+        std::cout << "runtimestack: ";
+        for(int i = 0; i < runtime_stack.size(); i++) {
+            std::cout << runtime_stack[i];
+            std::cout << " ";
+        }
+        std::cout << "returnstack: ";
+        for(int i = 0; i < return_stack.size(); i++) {
+            std::cout << return_stack[i];
+            std::cout << " ";
+        }
+        std::cout << "\n\n";
     }
 
-    for(int i = 0; i < runtime_stack.size(); i++) {
-        std::cout << runtime_stack[i];
-    }
+
 }

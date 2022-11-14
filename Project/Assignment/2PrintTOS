@@ -1,17 +1,8 @@
 start
-declscal A
-pushi 4
-pushi 69
-gosub L1
-jumpzero L3
-jump L2
-gosublabel L1
-declscal A
-popscal A
-pushscal A
-return 
-label L2
-popscal A
-prints exit_pgm
+pushi 6
+pushi 7
+swap
+printtos
+printtos
 exit
 end

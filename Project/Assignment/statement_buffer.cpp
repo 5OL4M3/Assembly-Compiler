@@ -65,13 +65,22 @@ void Statement_Buffer::update_count(int scope){
     }
 }
 
-int Statement_Buffer::statement_action(int pc, std::vector<int>& vec){
+int Statement_Buffer::statement_action(int pc, std::vector<int>& vec, std::vector<int>& vec2){
+    //vec is runtime stack
+    //vec2 is return stack
     std::cout << "PC is at: "<< pc << "\n";
     std::cout << statement_vector.at(pc)->instruction << "\n";
-    //return statement_vector.at(pc)->vm_action(vec);
+
     int new_pc = statement_vector.at(pc)->vm_action(vec);
 
-     if (new_pc == -1) {
+    if(statement_vector.at(pc)->instruction == "OP_GOSUB") {
+        //Make a subroutine call. 
+        //The address of the next statement (pc+1) is stored into a runtime stack of return addresses. 
+        //The pc is set to the value of opnd, which is the address of the subroutine.
+        vec2.push_back(pc + 1);
+    }
+
+    if (new_pc == -2) {
         return pc + 1;
     }
     else {

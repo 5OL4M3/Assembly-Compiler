@@ -18,7 +18,7 @@ public:
     static void add_statement(Command *);
     static void printContent();
     static void update_count(int);
-    static int statement_action(int, std::vector<int>&);
+    static int statement_action(int, std::vector<int>&, std::vector<int>&);
 };
 
 #endif
