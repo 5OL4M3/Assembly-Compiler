@@ -20,6 +20,7 @@ void Data_Memory::add_data(int item){
     data_memory.push_back(new_item);
 }
 
+
 void Data_Memory::remove_data() {
     data_memory.pop_back();
 }
