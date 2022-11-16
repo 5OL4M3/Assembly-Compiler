@@ -4,10 +4,10 @@
 
 class TwoTuple {
 public:
-    TwoTuple(std::string _name);
+    TwoTuple(int _name);
     void add_value(int _value);
     void displayTuple( );
-    std::string name;
+    int name;
     int value;
     bool value_empty;
 };

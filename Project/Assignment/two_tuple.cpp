@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-TwoTuple::TwoTuple(std::string _name) : name(_name) { 
+TwoTuple::TwoTuple(int _name) : name(_name) { 
     value_empty = true;
 }
 

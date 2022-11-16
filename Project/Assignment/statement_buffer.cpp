@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "data_memory.h"
+#define BIG_TEMP 69
 
 //Statement Buffer
 Statement_Buffer* Statement_Buffer::instance = nullptr;
@@ -65,7 +67,7 @@ void Statement_Buffer::update_count(int scope){
     }
 }
 
-int Statement_Buffer::statement_action(int pc, std::vector<int>& vec, std::vector<int>& vec2){
+int Statement_Buffer::statement_action(int pc, std::vector<int>& vec, std::vector<int>& vec2, Data_Memory* data){
     //vec is runtime stack
     //vec2 is return stack
     std::cout << "PC is at: "<< pc << "\n";
@@ -73,12 +75,47 @@ int Statement_Buffer::statement_action(int pc, std::vector<int>& vec, std::vecto
 
     int new_pc = statement_vector.at(pc)->vm_action(vec);
 
+    if(statement_vector.at(pc)->instruction == "OP_ENTER_SUBROUTINE") {
+        //Add a stack frame of size opnd to the data memory to hold the variables used by the subroutine. 
+        //Increment the pc to cause the next statement in instruction memory to be executed next.
+        for(int i = 0; i < statement_vector.at(pc)->count; i++) {
+            data->add_data(BIG_TEMP);
+        }
+    }
+
+    if(statement_vector.at(pc) -> instruction == "OP_START_PROGRAM") {
+        //Set up storage in the data memory to hold the outer scope variables. 
+        //The size of the stack frame is given by opnd. This is basically setting up the stack frame for the main procedure.
+        for(int i = 0; i < statement_vector.at(pc)->count; i++) {
+            data->add_data(BIG_TEMP);
+        }
+    }
+
     if(statement_vector.at(pc)->instruction == "OP_GOSUB") {
         //Make a subroutine call. 
         //The address of the next statement (pc+1) is stored into a runtime stack of return addresses. 
         //The pc is set to the value of opnd, which is the address of the subroutine.
         vec2.push_back(pc + 1);
     }
+
+    if(statement_vector.at(pc)->instruction == "OP_JUMP") {
+        //Set the pc to the address specified by opnd. 
+        //This instruction was created by the parser from the jump label statement.
+        new_pc = statement_vector.at(pc) -> count;
+    }
+
+    if(statement_vector.at(pc)->instruction == "OP_RETURN") {
+        //return from a subroutine call. Set the pc to the last return address saved by an OP_GOSUB instruction. 
+        //Pop the current subroutine stack frame from the data memory.
+        if(vec2.size() > 0) {
+            new_pc = vec2[vec2.size() - 1];     //set new pc address
+            //pop return address and data memory
+            vec2.pop_back();
+            data->remove_data();
+        }
+    }
+    std::cout<<"printcontent";
+    data->printContent();
 
     if (new_pc == -2) {
         return pc + 1;

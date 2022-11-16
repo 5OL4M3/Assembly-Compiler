@@ -15,9 +15,13 @@ Data_Memory * Data_Memory::create_data_memory() {
     return instance;
 }
 
-void Data_Memory::add_data(std::string item){
+void Data_Memory::add_data(int item){
     TwoTuple * new_item = new TwoTuple(item);
     data_memory.push_back(new_item);
+}
+
+void Data_Memory::remove_data() {
+    data_memory.pop_back();
 }
 
 void Data_Memory::printContent(){

@@ -361,7 +361,7 @@ void Gosublabel::perform_update(){
 
 int Gosublabel::vm_action() {
 	std::cout << "Gosublabel VM" << std::endl;
-	return -1;
+	return -2;
 }
 
 //Start
@@ -449,7 +449,7 @@ void Exit::perform_update(){
 
 int Exit::vm_action() {
 	std::cout << "Exit VM" << std::endl;
-	return -1;
+	return -2;
 }
 
 //Jump
@@ -485,7 +485,7 @@ void Jump::perform_update(){
 
 int Jump::vm_action() {
 	std::cout << "Jump VM" << std::endl;
-	return -1;
+	return -2;
 }
 
 //Jumpzero
@@ -655,7 +655,7 @@ void Return::perform_update(){
 
 int Return::vm_action() {
 	std::cout << "Return VM" << std::endl;
-	return -1;
+	return -2;
 }
 
 //Pushscal

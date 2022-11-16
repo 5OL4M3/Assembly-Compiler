@@ -9,7 +9,6 @@
 #include "data_memory.h"
 #define COMMAND_AMOUNT 26
 
-
 int main(int argc, char** argv){
     //Array for the lists of Command 
     bool big_boolean = false;       //tells us whether we ended with end
@@ -100,7 +99,7 @@ int main(int argc, char** argv){
     Data_Memory * data_memory = Data_Memory::create_data_memory();
 
     while (pc <= statement_buffer->index){
-        pc = statement_buffer->statement_action(pc, runtime_stack, return_stack);
+        pc = statement_buffer->statement_action(pc, runtime_stack, return_stack, data_memory);
         std::cout << "runtimestack: ";
         for(int i = 0; i < runtime_stack.size(); i++) {
             std::cout << runtime_stack[i];
@@ -111,8 +110,7 @@ int main(int argc, char** argv){
             std::cout << return_stack[i];
             std::cout << " ";
         }
+        data_memory->printContent();
         std::cout << "\n\n";
     }
-
-
 }
