@@ -20,13 +20,28 @@ void Data_Memory::add_data(int item){
     data_memory.push_back(new_item);
 }
 
+void Data_Memory::add_value(int index, int val) {
+    data_memory.at(index)->value = val;
+}
+
+int Data_Memory::get_val_at_index(int index) {
+    if(data_memory.size() > index) {
+        //make sure we are not accessing past the end of the values
+        return (data_memory.at(index) -> value);
+    }
+    else {
+        //we have a problem
+        return -1;
+    }
+}
+
 
 void Data_Memory::remove_data() {
     data_memory.pop_back();
 }
 
 void Data_Memory::printContent(){
-    std::cout << "Data Memory: \n";
+    std::cout << "Data Memory: ";
     for (int i = 0; i < data_memory.size(); i++)
     {
         std::cout << "  " << data_memory.at(i)->name << ", " << data_memory.at(i)->value << "\n";

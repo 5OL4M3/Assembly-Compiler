@@ -12,6 +12,8 @@ private:
 public: 
     static Data_Memory * create_data_memory();
     static void add_data(int);
+    static void add_value(int, int);
+    static int get_val_at_index(int);
     static void remove_data();
     static void printContent();
 };

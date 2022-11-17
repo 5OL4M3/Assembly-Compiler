@@ -210,7 +210,7 @@ Command* getCommand(int ind) {
 }
 
 int Command::vm_action(std::vector<int>& vec) {
-	std::cout << "Command VM" << std::endl;
+	//std::cout << "Command VM" << std::endl;
 	return -2;
 }
 
@@ -250,8 +250,8 @@ void Declscal::perform_update(){
 }
 
 int Declscal::vm_action() {
-	std::cout << "Declscal VM" << std::endl;
-	return -1;
+	//std::cout << "Declscal VM" << std::endl;
+	return -2;
 }
 
 //Declarr
@@ -284,8 +284,8 @@ void Declarr::perform_update(){
 }
 
 int Declarr::vm_action() {
-	std::cout << "Declarr VM" << std::endl;
-	return -1;
+	//std::cout << "Declarr VM" << std::endl;
+	return -2;
 }
 
 //Label
@@ -319,8 +319,8 @@ void Label::perform_update(){
 }
 
 int Label::vm_action() {
-	std::cout << "Label VM" << std::endl;
-	return -1;
+	//std::cout << "Label VM" << std::endl;
+	return -2;
 }
 
 //Gosublabel
@@ -360,7 +360,7 @@ void Gosublabel::perform_update(){
 }
 
 int Gosublabel::vm_action() {
-	std::cout << "Gosublabel VM" << std::endl;
+	//std::cout << "Gosublabel VM" << std::endl;
 	return -2;
 }
 
@@ -390,7 +390,7 @@ void Start::perform_update(){
 }
 
 int Start::vm_action() {
-	std::cout << "Start VM" << std::endl;
+	//std::cout << "Start VM" << std::endl;
 	return -2;
 }
 
@@ -416,8 +416,8 @@ void End::perform_update(){
 }
 
 int End::vm_action() {
-	std::cout << "End VM" << std::endl;
-	return -1;
+	//std::cout << "End VM" << std::endl;
+	return -2;
 }
 
 //Exit
@@ -448,7 +448,7 @@ void Exit::perform_update(){
 }
 
 int Exit::vm_action() {
-	std::cout << "Exit VM" << std::endl;
+	//std::cout << "Exit VM" << std::endl;
 	return -2;
 }
 
@@ -484,7 +484,7 @@ void Jump::perform_update(){
 }
 
 int Jump::vm_action() {
-	std::cout << "Jump VM" << std::endl;
+	//std::cout << "Jump VM" << std::endl;
 	return -2;
 }
 
@@ -520,7 +520,7 @@ void Jumpzero::perform_update(){
 }
 
 int Jumpzero::vm_action(std::vector<int>& vec) {
-	std::cout << "Jumpzero VM" << std::endl;
+	//std::cout << "Jumpzero VM" << std::endl;
 
 	//remove the top element from the runtime stack 
 	if (vec.size() > 0) {
@@ -569,7 +569,7 @@ void Jumpnzero::perform_update(){
 }
 
 int Jumpnzero::vm_action(std::vector<int>& vec) {
-	std::cout << "Jumpnzero VM" << std::endl;
+	//std::cout << "Jumpnzero VM" << std::endl;
 	//remove the top element from the runtime stack 
 	if (vec.size() > 0) {
 		//ensure the vector has elements in it
@@ -616,7 +616,7 @@ void Gosub::perform_update(){
 }
 
 int Gosub::vm_action(std::vector<int>& vec) {
-	std::cout << "Gosub VM" << std::endl;
+	//std::cout << "Gosub VM" << std::endl;
 	//Make a subroutine call. 
 	//The address of the next statement (pc+1) is stored into a runtime stack of return addresses. 
 	//The pc is set to the value of opnd, which is the address of the subroutine.
@@ -654,7 +654,7 @@ void Return::perform_update(){
 }
 
 int Return::vm_action() {
-	std::cout << "Return VM" << std::endl;
+	//std::cout << "Return VM" << std::endl;
 	return -2;
 }
 
@@ -686,9 +686,7 @@ void Pushscal::perform_update(){
 }
 
 int Pushscal::vm_action(std::vector<int>& vec) {
-	std::cout << "Pushscal VM" << std::endl;
-
-
+	//std::cout << "Pushscal VM" << std::endl;
 
 	return -2;
 }
@@ -723,8 +721,8 @@ void Pusharr::perform_update(){
 }
 
 int Pusharr::vm_action(std::vector<int>& vec) {
-	std::cout << "Pusharr VM" << std::endl;
-	return -1;
+	//std::cout << "Pusharr VM" << std::endl;
+	return -2;
 }
 
 //Pushi
@@ -758,7 +756,7 @@ void Pushi::perform_update(){
 
 int Pushi::vm_action(std::vector<int>& vec) {
 	vec.push_back(count);		//The value of opnd is pushed onto the runtime stack.
-	std::cout << "Pushi VM" << std::endl;
+	//std::cout << "Pushi VM" << std::endl;
 	return -2;
 }
 
@@ -789,12 +787,12 @@ void Pop::perform_update(){
 }
 
 int Pop::vm_action(std::vector<int>& vec) {
-	std::cout << "Pop VM" << std::endl;
+	//std::cout << "Pop VM" << std::endl;
 	//the value at the top of the runtime stack is discarded
-	for(int i = 0; i < vec.size(); i++) {
-        std::cout << vec[i];
-    }
-	return -1;
+	if(vec.size() > 0) {
+		vec.pop_back();
+	}
+	return -2;
 }
 
 //Popscal
@@ -828,8 +826,8 @@ void Popscal::perform_update(){
 }
 
 int Popscal::vm_action(std::vector<int>& vec) {
-	std::cout << "Popscal VM" << std::endl;
-	return -1;
+	//std::cout << "Popscal VM" << std::endl;
+	return -2;
 }
 
 //Poparr
@@ -862,8 +860,8 @@ void Poparr::perform_update(){
 }
 
 int Poparr::vm_action(std::vector<int>& vec) {
-	std::cout << "Poparr VM" << std::endl;
-	return -1;
+	//std::cout << "Poparr VM" << std::endl;
+	return -2;
 }
 
 //Dup
@@ -894,7 +892,7 @@ void Dup::perform_update(){
 }
 
 int Dup::vm_action(std::vector<int>& vec) {
-	std::cout << "Dup VM" << std::endl;
+	//std::cout << "Dup VM" << std::endl;
 	if(vec.size() > 0) {
 		vec.push_back(vec[vec.size() - 1]);
 	}
@@ -930,7 +928,7 @@ void Swap::perform_update(){
 
 int Swap::vm_action(std::vector<int>& vec) {
 	//The top two values value in the runtime stack are swapped.
-	std::cout << "Swap VM" << std::endl;
+	//std::cout << "Swap VM" << std::endl;
 	if(vec.size() >= 2) {
 		int temp = vec[vec.size() - 1];
 		vec[vec.size() - 1] = vec[vec.size() - 2];
@@ -968,7 +966,7 @@ void Add::perform_update(){
 }
 
 int Add::vm_action(std::vector<int>& vec) {
-	std::cout << "Add VM" << std::endl;
+	//std::cout << "Add VM" << std::endl;
 	if(vec.size() >= 2) {
 		int val = vec[vec.size() - 1] + vec[vec.size() - 2];
 		vec.pop_back();
@@ -1006,7 +1004,7 @@ void Negate::perform_update(){
 }
 
 int Negate::vm_action(std::vector<int>& vec) {
-	std::cout << "Negate VM" << std::endl;
+	//std::cout << "Negate VM" << std::endl;
 	//the value at the top of the runtime stack is negated
 	if(vec.size() > 0) {
 		vec[vec.size() - 1] = -vec[vec.size() - 1];
@@ -1043,7 +1041,7 @@ void Mul::perform_update(){
 }
 
 int Mul::vm_action(std::vector<int>& vec) {
-	std::cout << "Mul VM" << std::endl;
+	//std::cout << "Mul VM" << std::endl;
 	if(vec.size() >= 2) {
 		int val = vec[vec.size() - 1] * vec[vec.size() - 2];
 		vec.pop_back();
@@ -1081,7 +1079,7 @@ void Div::perform_update(){
 }
 
 int Div::vm_action(std::vector<int>& vec) {
-	std::cout << "Div VM" << std::endl;
+	//std::cout << "Div VM" << std::endl;
 	if(vec.size() >= 2) {
 		int val = vec[vec.size() - 1] / vec[vec.size() - 2];
 		vec.pop_back();
@@ -1120,11 +1118,12 @@ void Printtos::perform_update(){
 }
 
 int Printtos::vm_action(std::vector<int>& vec) {
-	std::cout << "Printtos VM" << std::endl;
+	//std::cout << "Printtos VM" << std::endl;
 	//The value at the top of the runtime stack is popped and printed.
 	if (vec.size() > 0) {
 		int val = vec[vec.size() - 1];
 		std::cout << val;
+		std::cout << "\n";
 	}
 	return -2;
 }
@@ -1163,7 +1162,7 @@ void Prints::perform_update(){
 }
 
 int Prints::vm_action() {
-	std::cout << "Prints VM" << std::endl;
-	return -1;
+	//std::cout << "Prints VM" << std::endl;
+	return -2;
 }
 

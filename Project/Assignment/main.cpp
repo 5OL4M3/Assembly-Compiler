@@ -100,6 +100,8 @@ int main(int argc, char** argv){
 
     while (pc <= statement_buffer->index){
         pc = statement_buffer->statement_action(pc, runtime_stack, return_stack, data_memory);
+
+        /*
         std::cout << "runtimestack: ";
         for(int i = 0; i < runtime_stack.size(); i++) {
             std::cout << runtime_stack[i];
@@ -112,5 +114,6 @@ int main(int argc, char** argv){
         }
         data_memory->printContent();
         std::cout << "\n\n";
+        */
     }
 }

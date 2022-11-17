@@ -6,6 +6,7 @@
 #include "symbol_table.h"
 #include "command.h"
 #include "functions.h"
+#include "string_buffer.h"
 #include "data_memory.h"
 
 class Statement_Buffer{

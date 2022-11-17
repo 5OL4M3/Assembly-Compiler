@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "data_memory.h"
+#include "string_buffer.h"
 #define BIG_TEMP 69
 
 //Statement Buffer
@@ -70,8 +71,8 @@ void Statement_Buffer::update_count(int scope){
 int Statement_Buffer::statement_action(int pc, std::vector<int>& vec, std::vector<int>& vec2, Data_Memory* data){
     //vec is runtime stack
     //vec2 is return stack
-    std::cout << "PC is at: "<< pc << "\n";
-    std::cout << statement_vector.at(pc)->instruction << "\n";
+    //std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << statement_vector.at(pc)->instruction << "\n";
 
     int new_pc = statement_vector.at(pc)->vm_action(vec);
 
@@ -96,6 +97,7 @@ int Statement_Buffer::statement_action(int pc, std::vector<int>& vec, std::vecto
         //The address of the next statement (pc+1) is stored into a runtime stack of return addresses. 
         //The pc is set to the value of opnd, which is the address of the subroutine.
         vec2.push_back(pc + 1);
+        new_pc = statement_vector.at(pc)->count;
     }
 
     if(statement_vector.at(pc)->instruction == "OP_JUMP") {
@@ -114,8 +116,39 @@ int Statement_Buffer::statement_action(int pc, std::vector<int>& vec, std::vecto
             data->remove_data();
         }
     }
-    std::cout<<"printcontent";
-    data->printContent();
+
+    if(statement_vector.at(pc)->instruction == "OP_PUSHSCALAR") {
+        //The value at the location in data memory given by opnd is pushed onto the runtime stack. 
+        //This should be the location of a scalar variable.
+        int ind = statement_vector.at(pc) -> count;
+        vec.push_back(data->get_val_at_index(ind));
+    }
+
+    if(statement_vector.at(pc)->instruction == "OP_POPSCAL") {
+        //The value at the top of the runtime stack is removed and stored into the data memory at location opnd.
+        if(vec.size() > 0) {
+            //make sure the runtime stack is not empty
+            int value = vec[vec.size() - 1];
+            int index = statement_vector.at(pc) -> count;
+            
+            data->add_value(index, value);
+            vec.pop_back();
+        }
+    }
+    
+    if(statement_vector.at(pc)->instruction == "OP_PUSHARRAY") {
+        /*
+        The value of opnd is added to the value at the top of the runtime stack, giving a location e in the 
+        data memory of an array element (opnd is the start of the array and the value at the top of the 
+        runtime stack is the index into the array).
+        The element at the top of the runtime stack is discarded, and the value of 
+        the data memory at location e in the data memory is pushed onto the runtime stack.*/
+        int opnd = statement_vector.at(pc) -> count;
+        vec.push_back(opnd);
+    }
+
+    
+    
 
     if (new_pc == -2) {
         return pc + 1;
