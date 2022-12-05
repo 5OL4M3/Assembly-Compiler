@@ -4,12 +4,15 @@
 
 class TwoTuple {
 public:
-    TwoTuple(std::string _name);
+    TwoTuple(int _name);
     void add_value(int _value);
     void displayTuple( );
-    std::string name;
-    int value;
+    int get_name();
+    int get_value();
     bool value_empty;
+private:
+    int name;
+    int value;
 };
 
 

@@ -11,8 +11,16 @@ private:
     Data_Memory();
 public: 
     static Data_Memory * create_data_memory();
-    static void add_data(std::string);
+    static void add_data(int);
     static void printContent();
+    static int get_size();
+    static void pop();
+    static void add_value(int, int);
+    static int get_val(int);
+    static std::vector<int> index_stack;
+    static int global_size;
+    static int scope2_size;
+    static int subroutine_size;
 };
 
 

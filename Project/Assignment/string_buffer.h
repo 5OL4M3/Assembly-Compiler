@@ -17,6 +17,7 @@ public:
     static void add_statement(Command *);
     static void printContent();
     static int find_location(std::string);
+    static void print_str_at(int);
 };
 //Determines what command is being declared 
 

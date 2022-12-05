@@ -16,6 +16,7 @@ private:
     Symbol_Table();
 public:
     static int find_location(std::string, int, int);
+    static int find_repetitive(std::string, int, int);
     static int num_var_scope1;
     static int num_var_scope2;
     static int scope1_index; //for variable in scope 1

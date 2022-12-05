@@ -6,6 +6,7 @@
 #include "symbol_table.h"
 #include "command.h"
 #include "functions.h"
+#include "data_memory.h"
 
 class Statement_Buffer{
 private:
@@ -17,7 +18,7 @@ public:
     static int index; 
     static void add_statement(Command *);
     static void printContent();
-    static int statement_action(int); 
+    static int statement_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*); 
     static void update_count(int);
 };
 

@@ -45,7 +45,6 @@ int main(int argc, char** argv){
         }
         Command* curr_command = getCommand(lookString(myline, command_list));
         curr_command->scope = scope;
-        curr_command->display();
         curr_command->add();
         //std::cout << "Index: " << Statement_Buffer::index << "\n";
         //Check rest of the file
@@ -95,9 +94,44 @@ int main(int argc, char** argv){
     int pc = 0;
     
     static std::vector<int> runtime_stack;
+    static std::vector<int> return_stack;
+    
     Data_Memory * data_memory = Data_Memory::create_data_memory();
-    while (pc < sizeof(statement_buffer)){
-        pc = statement_buffer->statement_action(pc);
+
+    std::cout << "Output: \n";
+    while (pc <= statement_buffer->index){
+        //std::cout << "PC is at: "<< pc << "\n";
+
+        pc = statement_buffer->statement_action(pc, runtime_stack, return_stack, data_memory);
+        /* std::cout << "\n";
+
+        std::cout << "runtimestack: ";
+        for(int i = 0; i < runtime_stack.size(); i++) {
+            std::cout << runtime_stack[i];
+            std::cout << " ";
+        }
         std::cout << "\n";
+        std::cout << "returnstack: ";
+        for(int i = 0; i < return_stack.size(); i++) {
+            std::cout << return_stack[i];
+            std::cout << " ";
+        }
+        std::cout << "\n";
+        data_memory->printContent();
+        std::cout << "\n------\n\n"; */
     }
+    std::cout << "\n";
+    std::cout << "runtimestack: ";
+    for(int i = 0; i < runtime_stack.size(); i++) {
+        std::cout << runtime_stack[i];
+        std::cout << " ";
+    }
+    std::cout << "\n";
+    std::cout << "returnstack: ";
+    for(int i = 0; i < return_stack.size(); i++) {
+        std::cout << return_stack[i];
+        std::cout << " ";
+    }
+    std::cout << "\n";
+    data_memory->printContent();
 }

@@ -87,10 +87,46 @@ void Symbol_Table::add_symbol(Command * item, int type){
 }
 
 int Symbol_Table::find_location(std::string key, int scope, int is_arr){
-    if (is_arr){
+    int prev, index;
+    if (is_arr == 1){
         for (int i = 0; i < symbol_vector.size(); i++){
             if(symbol_vector.at(i)->get_name() == key && symbol_vector.at(i)->get_scope() == scope){
                 //std::cout << symbol_vector.at(i)->get_index();
+                return symbol_vector.at(i)->get_index();
+            }
+        }
+    }
+    else{
+        for (int i = symbol_vector.size() - 1; i >= 0; i--){
+            if (prev != symbol_vector.at(i)->get_scope()){
+                if (is_arr == 10){
+                    if (symbol_vector.at(i)->get_name() == key){
+                        return symbol_vector.at(i)->get_index();
+                    }
+                }
+            }
+            if(symbol_vector.at(i)->get_name() == key && symbol_vector.at(i)->get_scope() == scope){
+                return symbol_vector.at(i)->get_index();
+            }
+            prev = symbol_vector.at(i)->get_scope();
+        }
+    }   
+    
+    for (int i = symbol_vector.size() - 1; i >= 0; i--){
+        if(symbol_vector.at(i)->get_name() == key){
+            return symbol_vector.at(i)->get_index();
+        }
+    }
+
+    std::cout << "FAILED\n";
+    return -1;
+}
+
+int Symbol_Table::find_repetitive(std::string key, int scope, int is_arr){
+    int prev, index;
+    if (is_arr == 1){
+        for (int i = 0; i < symbol_vector.size(); i++){
+            if(symbol_vector.at(i)->get_name() == key && symbol_vector.at(i)->get_scope() == scope){
                 return symbol_vector.at(i)->get_index();
             }
         }
@@ -101,7 +137,8 @@ int Symbol_Table::find_location(std::string key, int scope, int is_arr){
                 return symbol_vector.at(i)->get_index();
             }
         }
-    }
+    }   
+    
     return -1;
 }
 

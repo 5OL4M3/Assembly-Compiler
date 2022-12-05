@@ -33,6 +33,13 @@ int String_Buffer::find_location(std::string key){
             return i;
         }
     }
+    return -1;
+}
+
+void String_Buffer::print_str_at(int index){
+    if (index < string_vector.size()) {
+        std::cout << "  " << string_vector.at(index) << "\n";
+    }
 }
 /*
 void Statement_Buffer::add_statement(Command * item){

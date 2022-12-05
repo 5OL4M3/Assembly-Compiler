@@ -6,6 +6,8 @@
 #include "command.h"
 #include "functions.h"
 
+
+#define BIG_TEMP 69
 //Command
 
 Command::Command(){}
@@ -96,10 +98,16 @@ void Command::assign_args(std::string _myline) {
 
 void Command::display(){}
 void Command::add(){}
-std::string Command::get_instruction(){}
+std::string Command::get_instruction(){
+	return "";
+}
 void Command::perform_update(){} //updates the count 
-int Command::get_count(){}
-
+int Command::get_count(){
+	return -1;
+}
+int Command::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	return pc + 1;
+}
 
 Command* getCommand(int ind) {
     Command* curr_command;
@@ -207,6 +215,8 @@ Command* getCommand(int ind) {
         curr_command =new Prints();
         return curr_command;
     }
+
+	return NULL;
 }
 
 //Declscal 
@@ -216,12 +226,9 @@ Declscal::Declscal( ) {
 	data_size = 1;
 }
 
-void Declscal::display( ) {
-	//std::cout << "Declscal called" << std::endl;
-}
 
 void Declscal::add( ){
-	if(Symbol_Table::find_location(var1, scope, 0) != -1) {
+	if(Symbol_Table::find_repetitive(var1, scope, 0) != -1) {
 		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
 		exit(0);
 	}
@@ -235,13 +242,8 @@ void Declscal::add( ){
 	Symbol_Table::add_symbol(this, 1);
 }
 
-std::string Declscal::get_instruction( ){
-}
-
-int Declscal::get_count( ){
-}
-
-void Declscal::perform_update(){
+int Declscal::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	return pc + 1;
 }
 
 //Declarr
@@ -251,10 +253,8 @@ Declarr::Declarr( ) {
 	data_type2 = "i";
 }
 
-void Declarr::display( ) {}
-
 void Declarr::add( ){
-	if(Symbol_Table::find_location(var1, scope, 1) != -1) {
+	if(Symbol_Table::find_repetitive(var1, scope, 1) != -1) {
 		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
 		exit(0);
 	}
@@ -262,15 +262,8 @@ void Declarr::add( ){
 	Symbol_Table::add_symbol(this, 2); 
 }
 
-std::string Declarr::get_instruction( ){
-	//std::cout << "Retrieving Instruction" << std::endl;
-}
-
-int Declarr::get_count( ){
-	//std::cout << "Retrieving Count" << std::endl;
-}
-
-void Declarr::perform_update(){
+int Declarr::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	return pc + 1;
 }
 
 //Label
@@ -280,11 +273,8 @@ Label::Label( ) {
 	data_size = 0;
 }
 
-void Label::display( ) {
-}
-
 void Label::add( ){
-	if(Symbol_Table::find_location(var1, scope, 0) != -1) {
+	if(Symbol_Table::find_repetitive(var1, scope, 0) != -1) {
 		std::cout << "error: attempting to add variable with name " << var1 << " twice\n";
 		exit(0);
 	}
@@ -292,15 +282,8 @@ void Label::add( ){
 	Symbol_Table::add_symbol(this, 0); 
 }
 
-std::string Label::get_instruction( ){
-	//std::cout << "Retrieving Instruction" << std::endl;
-}
-
-int Label::get_count( ){
-	//std::cout << "Retrieving Count" << std::endl;
-}
-
-void Label::perform_update(){
+int Label::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	return pc + 1;
 }
 
 //Gosublabel
@@ -311,9 +294,6 @@ Gosublabel::Gosublabel( ) {
 	need_update = 1;
 	change_scope = 1;
 	count = -1;
-}
-
-void Gosublabel::display( ) {
 }
 
 void Gosublabel::add( ){
@@ -336,7 +316,30 @@ int Gosublabel::get_count( ){
 void Gosublabel::perform_update(){
 	//this could be an issue later on; we are assuming that there are no nested subroutines
 	count = Symbol_Table::num_var_scope2;
+}
 
+int Gosublabel::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+
+	data_memory->index_stack.push_back(data_memory->get_size());
+	//std::cout << "SIZE BEFORE: " << data_memory->index_stack.back() << "\n";
+	if ((data_memory->global_size + count) > data_memory->get_size()){
+		data_memory->scope2_size = count;
+		//std::cout << "!!!!!!: " << data_memory->scope2_size << "\n";
+	}
+	else{
+		//std::cout << "WE'RE IN SUB: " << data_memory->get_size() << "\n";
+		data_memory->subroutine_size = data_memory->get_size();
+	}
+	for(int i = 0; i < count; i++) {
+		data_memory->add_data(BIG_TEMP);
+	}
+	//std::cout << "SIZE After: " << data_memory->get_size() << "\n";
+	
+	
+	return pc + 1;
 }
 
 //Start
@@ -345,8 +348,7 @@ Start::Start ( ){
 	need_update = 1;
 	count = -1;
 }
-void Start::display( ){
-}
+
 void Start::add( ){
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	Statement_Buffer::add_statement(this);
@@ -364,34 +366,33 @@ void Start::perform_update(){
 	count = Symbol_Table::num_var_scope1;
 }
 
+int Start::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	for(int i = 0; i < count; i++) {
+		data_memory->add_data(BIG_TEMP);
+	}
+	
+	data_memory->global_size = count;
+	//std::cout << "global size: " << data_memory->global_size << "\n";
+
+	return pc + 1;
+}
+
 //End
 End::End( ) {
 	expected = 0;		
-}
-
-void End::display( ) {
 }
 
 void End::add( ){
 	Statement_Buffer::update_count(scope);
 }
 
-std::string End::get_instruction( ){
-}
-
-int End::get_count( ){
-}
-
-void End::perform_update(){
-}
-
 //Exit
 Exit::Exit( ) {
 	int expected = 0;		//JM
 	count = -1;
-}
-
-void Exit::display( ) {
 }
 
 void Exit::add( ){
@@ -409,8 +410,12 @@ int Exit::get_count( ){
 	return count;
 }
 
-void Exit::perform_update(){
+int Exit::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+	return pc + 1;
 }
+
 
 //Jump
 Jump::Jump( ) {
@@ -418,9 +423,6 @@ Jump::Jump( ) {
 	data_type1 = "s";
 	need_update = 1;
 	count = -1;
-}
-
-void Jump::display( ) {
 }
 
 void Jump::add( ){
@@ -443,15 +445,18 @@ void Jump::perform_update(){
 	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
+int Jump::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+	return count;
+}
+
 //Jumpzero
 Jumpzero::Jumpzero( ) {
 	expected = 1;
 	data_type1 = "s";
 	need_update = 1;
 	count = -1;
-}
-
-void Jumpzero::display( ) {
 }
 
 void Jumpzero::add( ){
@@ -474,15 +479,23 @@ void Jumpzero::perform_update(){
 	count = Symbol_Table::find_location(var1, scope, 0);
 }
 
+int Jumpzero::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+	int top = runtime_stack.back();
+	runtime_stack.pop_back();
+	if (top == 0) {
+		return count;
+	}
+	return pc + 1;
+}
+
 //Jumpnzero
 Jumpnzero::Jumpnzero( ) {
 	expected = 1;
 	data_type1 = "s";
 	need_update = 1;
 	count = -1;
-}
-
-void Jumpnzero::display( ) {
 }
 
 void Jumpnzero::add( ){
@@ -501,9 +514,20 @@ int Jumpnzero::get_count( ){
 }
 
 void Jumpnzero::perform_update(){
-	std::cout << "Updating the count" << std::endl;
+	//std::cout << "Updating the count" << std::endl;
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
 	count = Symbol_Table::find_location(var1, scope, 0);
+}
+
+int Jumpnzero::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+	int top = runtime_stack.back();
+	runtime_stack.pop_back();
+	if (top != 0) {
+		return count;
+	}
+	return pc + 1;
 }
 
 //Gosub
@@ -512,9 +536,6 @@ Gosub::Gosub( ) {
 	data_type1 = "s";
 	need_update = 1;
 	count = -1;
-}
-
-void Gosub::display( ) {
 }
 
 void Gosub::add( ){
@@ -534,17 +555,25 @@ int Gosub::get_count( ){
 
 void Gosub::perform_update(){
 	Symbol_Table * symbol_table = Symbol_Table::create_symbol_table();
-	count = Symbol_Table::find_location(var1, scope, 0);
+	count = Symbol_Table::find_location(var1, scope, 10);
 }
+
+int Gosub::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+   // std::cout << instruction << "\n";
+
+	return_stack.push_back(pc + 1);
+
+	//std::cout << "count is " << count << "\n";
+	return count;
+}
+
 
 //Return
 Return::Return( ) {
 	expected = 0;		
 	change_scope = -1;
 	count = -1;
-}
-
-void Return::display( ) {
 }
 
 void Return::add( ){
@@ -563,7 +592,27 @@ int Return::get_count( ){
 	return count;
 }
 
-void Return::perform_update(){
+int Return::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+   // std::cout << instruction << "\n";
+
+	while (data_memory->get_size() > data_memory->index_stack.back()){
+
+		data_memory->pop();
+		data_memory->subroutine_size -= 1;
+	}
+	
+	data_memory->index_stack.pop_back();
+
+	if (return_stack.size() > 0) {
+		int index = return_stack.back();
+		return_stack.pop_back();
+		return index;
+	}
+	else{
+		return pc + 1;
+	}
+	
 }
 
 //Pushscal
@@ -571,9 +620,6 @@ Pushscal::Pushscal( ) {
 	expected = 1;
 	data_type1 = "s";
 	count = -1;
-}
-
-void Pushscal::display( ) {
 }
 
 void Pushscal::add( ){
@@ -590,7 +636,23 @@ int Pushscal::get_count( ){
 	return count;
 }
 
-void Pushscal::perform_update(){
+int Pushscal::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if (data_memory->global_size + data_memory->scope2_size < data_memory->get_size()){
+		int index = count - data_memory->global_size;
+		index = index + data_memory->subroutine_size;
+
+		runtime_stack.push_back(data_memory->get_val(index));
+	}
+	//we're not in subroutine 
+	else {
+		runtime_stack.push_back(data_memory->get_val(count));
+	}
+	
+
+	return pc + 1;
 }
 
 //Pusharr
@@ -598,9 +660,6 @@ Pusharr::Pusharr( ) {
 	expected = 1;
 	data_type1 = "s";
 	count = -1;
-}
-
-void Pusharr::display( ) {
 }
 
 void Pusharr::add( ){
@@ -619,7 +678,17 @@ int Pusharr::get_count( ){
 	return count;
 }
 
-void Pusharr::perform_update(){
+int Pusharr::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+	
+	int e_index = count + runtime_stack.back();
+	if (e_index < data_memory->get_size()){
+		runtime_stack.pop_back();
+		runtime_stack.push_back(data_memory->get_val(e_index));
+	}
+
+	return pc + 1;
 }
 
 //Pushi
@@ -627,9 +696,6 @@ Pushi::Pushi( ) {
 	expected = 1;
 	data_type1 = "i";
 	count = -1;
-}
-
-void Pushi::display( ) {
 }
 
 void Pushi::add( ){
@@ -648,15 +714,19 @@ int Pushi::get_count( ){
 	return count;
 }
 
-void Pushi::perform_update(){
+int Pushi::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	runtime_stack.push_back(count);
+
+	return pc + 1;
 }
+
 
 //Pop
 Pop::Pop( ) {
 	expected = 0; 	//JM
-}
-
-void Pop::display( ) {
 }
 
 void Pop::add( ){
@@ -674,7 +744,15 @@ int Pop::get_count( ){
 	return count;
 }
 
-void Pop::perform_update(){
+int Pop::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if(runtime_stack.size() > 0) {
+		runtime_stack.pop_back();
+	}
+
+	return pc + 1;
 }
 
 //Popscal
@@ -684,13 +762,11 @@ Popscal::Popscal( ) {
 	count = -1;
 }
 
-void Popscal::display( ) {
-}
-
 void Popscal::add( ){
 	Statement_Buffer * buffer_statement = Statement_Buffer::create_statement_buffer();
 	
 	count = Symbol_Table::find_location(var1, scope, 0);
+	
 	Statement_Buffer::add_statement(this);
 }
 
@@ -704,7 +780,36 @@ int Popscal::get_count( ){
 	return count;
 }
 
-void Popscal::perform_update(){
+int Popscal::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+
+	if(runtime_stack.size() == 0) {
+		std::cout << "error: runtime stack is empty\n";
+		return pc + 1;
+	}
+
+	int value = runtime_stack.back();
+	runtime_stack.pop_back();
+	//if we're in subroutine 
+	if (data_memory->global_size + data_memory->scope2_size < data_memory->get_size()){
+		int index = count - data_memory->global_size;
+		if (index < 0){
+			index = count;
+		}
+		else{
+			index = index + data_memory->subroutine_size;
+		}
+
+		data_memory->add_value(index, value);
+	}
+	//we're not in subroutine 
+	else {
+		data_memory->add_value(count, value);
+	}
+
+	return pc + 1;
 }
 
 //Poparr
@@ -712,9 +817,6 @@ Poparr::Poparr( ) {
 	expected = 1;
 	data_type1 = "s";
 	count = -1;
-}
-
-void Poparr::display( ) {
 }
 
 void Poparr::add( ){
@@ -733,16 +835,25 @@ int Poparr::get_count( ){
 	return count;
 }
 
-void Poparr::perform_update(){
+int Poparr::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	int new_index = count + runtime_stack.back();
+	if (new_index < data_memory->get_size()){
+		runtime_stack.pop_back();
+		int new_val = runtime_stack.back();
+		runtime_stack.pop_back();
+		data_memory->add_value(new_index, new_val);
+	}
+	
+	return pc + 1;
 }
 
 //Dup
 Dup::Dup( ) {
 	expected = 0; 	//JM
 	count = -1;
-}
-
-void Dup::display( ) {
 }
 
 void Dup::add( ){
@@ -760,16 +871,21 @@ int Dup::get_count( ){
 	return count;
 }
 
-void Dup::perform_update(){
+int Dup::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if(runtime_stack.size() > 0) {
+		runtime_stack.push_back(runtime_stack.back());
+	}
+
+	return pc + 1;
 }
 
 //Swap
 Swap::Swap( ) {
 	expected = 0; 	//JM
 	count = -1;
-}
-
-void Swap::display( ) {
 }
 
 void Swap::add( ){
@@ -787,16 +903,23 @@ int Swap::get_count( ){
 	return count;
 }
 
-void Swap::perform_update(){
+int Swap::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if(runtime_stack.size() >= 2) {
+		int temp = runtime_stack.back();
+		runtime_stack[runtime_stack.size() - 1] = runtime_stack[runtime_stack.size() - 2];
+		runtime_stack[runtime_stack.size() - 2] = temp;
+	}
+
+	return pc + 1;
 }
 
 //Add
 Add::Add( ) {
 	expected = 0; 	//JM
 	count = -1;
-}
-
-void Add::display( ) {
 }
 
 void Add::add( ){
@@ -814,16 +937,24 @@ int Add::get_count( ){
 	return count;
 }
 
-void Add::perform_update(){
+int Add::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if(runtime_stack.size() >= 2) {
+		int val = runtime_stack[runtime_stack.size() - 1] + runtime_stack[runtime_stack.size() - 2];
+		runtime_stack.pop_back();
+		runtime_stack.pop_back();
+		runtime_stack.push_back(val);
+	}
+
+	return pc + 1;
 }
 
 //Negate
 Negate::Negate( ) {
 	expected = 0; 	//JM
 	count = -1;
-}
-
-void Negate::display( ) {
 }
 
 void Negate::add( ){
@@ -841,16 +972,21 @@ int Negate::get_count( ){
 	return count;
 }
 
-void Negate::perform_update(){
+int Negate::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if(runtime_stack.size() > 0) {
+		runtime_stack[runtime_stack.size() - 1] = -runtime_stack.back();
+	}
+
+	return pc + 1;
 }
 
 //Mul
 Mul::Mul( ) {
 	expected = 0; 	//JM
 	count = -1;
-}
-
-void Mul::display( ) {
 }
 
 void Mul::add( ){
@@ -868,16 +1004,24 @@ int Mul::get_count( ){
 	return count;
 }
 
-void Mul::perform_update(){
+int Mul::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if(runtime_stack.size() >= 2) {
+		int val = runtime_stack[runtime_stack.size() - 1] * runtime_stack[runtime_stack.size() - 2];
+		runtime_stack.pop_back();
+		runtime_stack.pop_back();
+		runtime_stack.push_back(val);
+	}
+
+	return pc + 1;
 }
 
 //Div
 Div::Div( ) {
 	expected = 0; 	//JM
 	count = -1;
-}
-
-void Div::display( ) {
 }
 
 void Div::add( ){
@@ -895,16 +1039,25 @@ int Div::get_count( ){
 	return count;
 }
 
-void Div::perform_update(){
+int Div::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if(runtime_stack.size() >= 2) {
+		int val = runtime_stack[runtime_stack.size() - 1] / runtime_stack[runtime_stack.size() - 2];
+		runtime_stack.pop_back();
+		runtime_stack.pop_back();
+		runtime_stack.push_back(val);
+	}
+
+	return pc + 1;
 }
+
 
 //Printtos
 Printtos::Printtos( ) {
 	expected = 0;
 	count = -1;
-}
-
-void Printtos::display( ) {
 }
 
 void Printtos::add( ){
@@ -923,7 +1076,16 @@ int Printtos::get_count( ){
 	count = -1;
 }
 
-void Printtos::perform_update(){
+int Printtos::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	if (runtime_stack.size() > 0) {
+		std::cout << "  " << runtime_stack.back() << "\n";
+		runtime_stack.pop_back();	
+	}
+
+	return pc + 1;
 }
 
 //Prints
@@ -932,9 +1094,6 @@ Prints::Prints( ) {
 	data_type1 = "b"; 
 	count = -1;
 	need_update = 1;
-}
-
-void Prints::display( ) {
 }
 
 void Prints::add( ){
@@ -957,5 +1116,15 @@ int Prints::get_count( ){
 void Prints::perform_update(){
 	String_Buffer * string_vector = String_Buffer::create_string_buffer();
 	count = String_Buffer::find_location(var1);
+}
+
+int Prints::vm_action(int pc, std::vector<int>& runtime_stack, std::vector<int>& return_stack, Data_Memory* data_memory){
+	//std::cout << "PC is at: "<< pc << "\n";
+    //std::cout << instruction << "\n";
+
+	String_Buffer * string_vector = String_Buffer::create_string_buffer();
+	string_vector->print_str_at(count);
+
+	return pc + 1;
 }
 

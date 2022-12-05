@@ -6,6 +6,7 @@
 #include "statement_buffer.h"
 #include "symbol_table.h"
 #include "functions.h"
+#include "data_memory.h"
 
 
 class Command{
@@ -31,6 +32,7 @@ public:
     virtual void perform_update(); //updates the count 
     virtual int get_count();
 	void assign_args(std::string);
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string syntax;
 };
@@ -42,11 +44,8 @@ Command* getCommand(int ind);
 class Declscal:public Command {
 public:
     Declscal( );
-    void display( );
     void add();
-    virtual void perform_update();
-    std::string get_instruction( );
-    int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 };
 
 
@@ -54,11 +53,8 @@ public:
 class Declarr:public Command {
 public:
     Declarr( );
-    void display( );
     void add();
-    virtual void perform_update();
-    std::string get_instruction( );
-    int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 };
 
 
@@ -66,11 +62,8 @@ public:
 class Label:public Command {
 public:
     Label( );
-    void display( );
     void add();
-    virtual void perform_update();
-    std::string get_instruction( );
-    int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 };
 
 
@@ -78,11 +71,11 @@ public:
 class Gosublabel:public Command {
 public:
     Gosublabel( );
-    void display( );
     void add();
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private: 
     std::string instruction = "OP_ENTER_SUBROUTINE";
 };
@@ -91,24 +84,20 @@ private:
 class Start:public Command {
 public:
     Start( );
-    void display( );
     void add( );
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
 private:
     std::string instruction = "OP_START_PROGRAM";
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 };
 
 //End
 class End:public Command {
 public:
     End( );
-    void display( );
     void add();
-    virtual void perform_update();
-    std::string get_instruction( );
-    int get_count( );
 };
 
 
@@ -116,11 +105,10 @@ public:
 class Exit:public Command {
 public:
     Exit( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_EXIT";
 };
@@ -130,11 +118,11 @@ private:
 class Jump:public Command {
 public:
     Jump( );
-    void display( );
     void add();
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_JUMP";
 };
@@ -144,11 +132,11 @@ private:
 class Jumpzero:public Command {
 public:
     Jumpzero( );
-    void display( );
     void add();
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_JUMPZERO";
 };
@@ -158,11 +146,11 @@ private:
 class Jumpnzero:public Command {
 public:
     Jumpnzero( );
-    void display( );
     void add();
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_JUMPNZERO";
 };
@@ -172,11 +160,11 @@ private:
 class Gosub:public Command {
 public:
     Gosub( );
-    void display( );
     void add();
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_GOSUB";
 };
@@ -185,11 +173,10 @@ private:
 class Return:public Command {
 public:
     Return( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_RETURN";
 };
@@ -199,11 +186,10 @@ private:
 class Pushscal:public Command {
 public:
     Pushscal( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_PUSHSCALAR";
 };
@@ -213,11 +199,10 @@ private:
 class Pusharr:public Command {
 public:
     Pusharr( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_PUSHARRAY";
 };
@@ -227,11 +212,10 @@ private:
 class Pushi:public Command {
 public:
     Pushi( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_PUSHI";
 };
@@ -241,11 +225,10 @@ private:
 class Pop:public Command {
 public:
     Pop( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_POP";
 };
@@ -255,11 +238,10 @@ private:
 class Popscal:public Command {
 public:
     Popscal( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_POPSCAL";
 };
@@ -269,11 +251,10 @@ private:
 class Poparr:public Command {
 public:
     Poparr( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_POPARRAY";
 };
@@ -283,11 +264,10 @@ private:
 class Dup:public Command {
 public:
     Dup( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_DUP";
 };
@@ -297,11 +277,10 @@ private:
 class Swap:public Command {
 public:
     Swap( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_SWAP";
 };
@@ -311,11 +290,10 @@ private:
 class Add:public Command {
 public:
     Add( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_ADD";
 };
@@ -325,11 +303,10 @@ private:
 class Negate:public Command {
 public:
     Negate( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_NEGATE";
 };
@@ -339,11 +316,10 @@ private:
 class Mul:public Command {
 public:
     Mul( );
-	void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_MUL";
 };
@@ -353,11 +329,10 @@ private:
 class Div:public Command {
 public:
     Div( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_DIV";
 };
@@ -367,11 +342,10 @@ private:
 class Printtos:public Command {
 public:
     Printtos( );
-    void display( );
     void add();
-    virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_PRINTTOS";
 };
@@ -380,11 +354,11 @@ private:
 class Prints:public Command {
 public:
     Prints( );
-    void display( );
     void add();
     virtual void perform_update();
     std::string get_instruction( );
     int get_count( );
+    virtual int vm_action(int, std::vector<int>&, std::vector<int>&, Data_Memory*);
 private:
     std::string instruction = "OP_PRINTS";
 };
