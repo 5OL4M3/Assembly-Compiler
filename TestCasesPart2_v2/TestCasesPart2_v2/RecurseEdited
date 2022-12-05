@@ -1,0 +1,31 @@
+start
+declscal GLOBAL
+pushi 3
+gosub FIB
+pushscal GLOBAL
+printtos
+jump EXIT
+gosublabel FIB
+declscal A
+prints in_FIB
+dup
+popscal A
+pushi 1
+negate
+add
+dup
+jumpzero FIBL0
+gosub FIB
+pushscal A
+mul
+dup
+popscal GLOBAL
+jump FIBL1
+label FIBL0
+pop
+pushi 1
+label FIBL1
+return
+label EXIT
+exit
+end
