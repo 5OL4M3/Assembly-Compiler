@@ -1,7 +1,0 @@
-start
-pushi 6
-dup
-printtos
-printtos
-exit
-end

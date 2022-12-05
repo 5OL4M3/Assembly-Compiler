@@ -1,6 +1,0 @@
-Start 1
-PushI  (4)
-PopScalar A, (0)
-PushScalar A, (0)
-PrintTOS 
-Exit 

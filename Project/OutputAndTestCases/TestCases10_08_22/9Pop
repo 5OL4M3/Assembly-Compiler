@@ -1,7 +1,0 @@
-start
-pushi 6
-pushi 7
-pop
-printtos
-exit
-end
